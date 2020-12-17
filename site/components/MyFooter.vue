@@ -10,7 +10,7 @@
         <div>
           © 2020 Powered by
           <a href="http://docs.bbs-go.com" target="_blank" class="light"
-            >良家少女 - 魔性社区 :) </a
+            >良家少女 - 魔性社区 :) base on bbs-go</a
           >
         </div>
       </div>

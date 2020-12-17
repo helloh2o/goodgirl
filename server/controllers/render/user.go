@@ -3,6 +3,7 @@ package render
 import (
 	"bbs-go/cache"
 	"bbs-go/common/avatar"
+	"bbs-go/config"
 	"bbs-go/model"
 	"bbs-go/model/constants"
 	"github.com/mlogclub/simple"
@@ -34,7 +35,7 @@ func BuildUser(user *model.User) *model.UserInfo {
 	}
 	a := user.Avatar
 	if len(a) == 0 {
-		a = avatar.DefaultAvatar
+		a = config.Instance.BaseUrl + avatar.DefaultAvatar
 	}
 	roles := strings.Split(user.Roles, ",")
 	ret := &model.UserInfo{

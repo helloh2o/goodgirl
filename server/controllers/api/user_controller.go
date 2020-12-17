@@ -159,6 +159,7 @@ func (c *UserController) PostSetBackgroundImage() *simple.JsonResult {
 		return simple.JsonError(simple.ErrorNotLogin)
 	}
 	backgroundImage := simple.FormValue(c.Ctx, "backgroundImage")
+	backgroundImage = strings.Replace(backgroundImage, "\\", "/", -1)
 	if simple.IsBlank(backgroundImage) {
 		return simple.JsonErrorMsg("请上传图片")
 	}

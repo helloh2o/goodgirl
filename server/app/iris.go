@@ -53,6 +53,8 @@ func InitIris() {
 		_, _ = i.HTML("<h1>Hello dog style.</h1>")
 	})
 
+	app.HandleDir("/images", "./data/images")
+
 	// api
 	mvc.Configure(app.Party("/api"), func(m *mvc.Application) {
 		m.Party("/topic").Handle(new(api.TopicController))
