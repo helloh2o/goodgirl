@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>bbs-go演示站</title>
-    <link>http://127.0.0.1:8082</link>
-    <description>bbs-go，基于Go语言的开源社区系统</description>
-    <managingEditor> (bbs-go演示站)</managingEditor>
-    <pubDate>Thu, 17 Dec 2020 15:07:55 +0800</pubDate>
-  </channel>
-</rss>
