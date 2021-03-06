@@ -166,7 +166,7 @@ export default {
   #searchForm {
     .input {
       box-shadow: none;
-      border-radius: 2px;
+      border-radius: 20px;
       background-color: #fff;
       transition: all 0.4s;
       float: right;
