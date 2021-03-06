@@ -1,7 +1,5 @@
 <template>
   <div class="right-container">
-    <post-btns v-if="isOwner" />
-
     <div class="widget">
       <div class="widget-header">个人成就</div>
       <div class="widget-content extra-info">
@@ -68,10 +66,8 @@
 </template>
 
 <script>
-import PostBtns from '~/components/PostBtns'
 import UserHelper from '~/common/UserHelper'
 export default {
-  components: { PostBtns },
   props: {
     user: {
       type: Object,
@@ -105,9 +101,9 @@ export default {
           days: 7,
         })
         this.user.forbidden = true
-        this.$toast.success('禁言成功')
+        this.$message.success('禁言成功')
       } catch (e) {
-        this.$toast.error('禁言失败')
+        this.$message.error('禁言失败')
       }
     },
     async removeForbidden() {
@@ -117,9 +113,9 @@ export default {
           days: 0,
         })
         this.user.forbidden = false
-        this.$toast.success('取消禁言成功')
+        this.$message.success('取消禁言成功')
       } catch (e) {
-        this.$toast.error('取消禁言失败')
+        this.$message.error('取消禁言失败')
       }
     },
   },
@@ -154,8 +150,6 @@ export default {
 
 .operations {
   list-style: none;
-  margin-top: 8px;
-  margin-left: 0px;
 
   li {
     padding-left: 3px;

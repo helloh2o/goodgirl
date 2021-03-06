@@ -1,8 +1,6 @@
 package admin
 
 import (
-	"bbs-go/common/markdown"
-	"bbs-go/model/constants"
 	"strconv"
 
 	"github.com/kataras/iris/v12"
@@ -30,23 +28,9 @@ func (c *TopicController) AnyList() *simple.JsonResult {
 
 	var results []map[string]interface{}
 	for _, topic := range list {
-		builder := simple.NewRspBuilderExcludes(topic, "content")
-
-		// 用户
-		builder = builder.Put("user", render.BuildUserDefaultIfNull(topic.UserId))
-
-		// 节点
-		node := services.TopicNodeService.Get(topic.NodeId)
-		builder.Put("node", node)
-
-		// 简介
-		summary := markdown.GetSummary(topic.Content, constants.SummaryLen)
-		builder.Put("summary", summary)
-
-		// 标签
-		tags := services.TopicService.GetTopicTags(topic.Id)
-		builder.Put("tags", render.BuildTags(tags))
-
+		item := render.BuildSimpleTopic(&topic)
+		builder := simple.NewRspBuilder(item)
+		builder.Put("status", topic.Status)
 		results = append(results, builder.Build())
 	}
 
@@ -79,35 +63,16 @@ func (c *TopicController) DeleteRecommend() *simple.JsonResult {
 	return simple.JsonSuccess()
 }
 
-func (c *TopicController) PostUpdate() *simple.JsonResult {
-	id, err := simple.FormValueInt64(c.Ctx, "id")
-	if err != nil {
-		return simple.JsonErrorMsg(err.Error())
-	}
-	t := services.TopicService.Get(id)
-	if t == nil {
-		return simple.JsonErrorMsg("entity not found")
-	}
-
-	err = simple.ReadForm(c.Ctx, t)
-	if err != nil {
-		return simple.JsonErrorMsg(err.Error())
-	}
-
-	err = services.TopicService.Update(t)
-	if err != nil {
-		return simple.JsonErrorMsg(err.Error())
-	}
-	return simple.JsonData(t)
-}
-
 func (c *TopicController) PostDelete() *simple.JsonResult {
 	id, err := simple.FormValueInt64(c.Ctx, "id")
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}
-
-	err = services.TopicService.Delete(id)
+	user := services.UserTokenService.GetCurrent(c.Ctx)
+	if user == nil {
+		return simple.JsonError(simple.ErrorNotLogin)
+	}
+	err = services.TopicService.Delete(id, user.Id, c.Ctx.Request())
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}

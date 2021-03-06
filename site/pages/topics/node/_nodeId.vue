@@ -1,20 +1,26 @@
 <template>
   <section class="main">
-    <div class="container main-container left-main">
+    <div class="container main-container left-main size-360">
       <div class="left-container">
-        <div class="main-content">
-          <topics-nav :nodes="nodes" :current-node-id="node.nodeId" />
-          <topic-list :topics="topicsPage.results" :show-ad="true" />
-          <pagination
-            :page="topicsPage.page"
-            :url-prefix="'/topics/node/' + node.nodeId + '?p='"
-          />
+        <div class="main-content no-padding no-bg topics-wrapper">
+          <div class="topics-nav">
+            <topics-nav :nodes="nodes" :current-node-id="node.nodeId" />
+          </div>
+          <div class="topics-main">
+            <load-more
+              v-if="topicsPage"
+              v-slot="{ results }"
+              :init-data="topicsPage"
+              :url="'/api/topic/topics?nodeId=' + node.nodeId"
+            >
+              <topic-list :topics="results" :show-ad="true" />
+            </load-more>
+          </div>
         </div>
       </div>
       <div class="right-container">
         <check-in />
         <site-notice />
-        <tweets-widget :tweets="newestTweets" />
         <score-rank :score-rank="scoreRank" />
         <friend-links :links="links" />
       </div>
@@ -27,10 +33,9 @@ import CheckIn from '~/components/CheckIn'
 import SiteNotice from '~/components/SiteNotice'
 import ScoreRank from '~/components/ScoreRank'
 import FriendLinks from '~/components/FriendLinks'
-import TopicsNav from '~/components/TopicsNav'
-import TopicList from '~/components/TopicList'
-import TweetsWidget from '~/components/TweetsWidget'
-import Pagination from '~/components/Pagination'
+import TopicsNav from '~/components/topic/TopicsNav'
+import TopicList from '~/components/topic/TopicList'
+import LoadMore from '~/components/LoadMore'
 
 export default {
   components: {
@@ -40,29 +45,15 @@ export default {
     FriendLinks,
     TopicsNav,
     TopicList,
-    TweetsWidget,
-    Pagination,
+    LoadMore,
   },
   async asyncData({ $axios, params, query }) {
-    const [
-      node,
-      nodes,
-      topicsPage,
-      scoreRank,
-      links,
-      newestTweets,
-    ] = await Promise.all([
+    const [node, nodes, topicsPage, scoreRank, links] = await Promise.all([
       $axios.get('/api/topic/node?nodeId=' + params.nodeId),
       $axios.get('/api/topic/nodes'),
-      $axios.get('/api/topic/node/topics', {
-        params: {
-          nodeId: params.nodeId,
-          page: query.p || 1,
-        },
-      }),
+      $axios.get('/api/topic/topics?nodeId=' + params.nodeId),
       $axios.get('/api/user/score/rank'),
       $axios.get('/api/link/toplinks'),
-      $axios.get('/api/tweet/newest'),
     ])
     return {
       node,
@@ -70,7 +61,6 @@ export default {
       topicsPage,
       scoreRank,
       links,
-      newestTweets,
     }
   },
   methods: {

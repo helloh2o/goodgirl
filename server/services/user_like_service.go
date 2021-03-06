@@ -6,7 +6,6 @@ import (
 	"github.com/mlogclub/simple/date"
 
 	"github.com/mlogclub/simple"
-	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
 	"bbs-go/model"
@@ -84,36 +83,37 @@ func (s *userLikeService) Exists(userId int64, entityType string, entityId int64
 		Eq("entity_type", entityType).Eq("entity_id", entityId)) != nil
 }
 
+// 是否点赞，返回已点赞实体编号
+func (s *userLikeService) IsLiked(userId int64, entityType string, entityIds []int64) (likedEntityIds []int64) {
+	list := repositories.UserLikeRepository.Find(simple.DB(), simple.NewSqlCnd().Eq("user_id", userId).
+		Eq("entity_type", entityType).In("entity_id", entityIds))
+	for _, like := range list {
+		likedEntityIds = append(likedEntityIds, like.EntityId)
+	}
+	return
+}
+
 // 话题点赞
 func (s *userLikeService) TopicLike(userId int64, topicId int64) error {
-	logrus.Info("params:", userId, topicId)
 	topic := repositories.TopicRepository.Get(simple.DB(), topicId)
 	if topic == nil || topic.Status != constants.StatusOk {
 		return errors.New("话题不存在")
 	}
 
-	return simple.DB().Transaction(func(tx *gorm.DB) error {
+	if err := simple.DB().Transaction(func(tx *gorm.DB) error {
 		if err := s.like(tx, userId, constants.EntityTopic, topicId); err != nil {
 			return err
 		}
 		// 更新点赞数
 		return tx.Exec("update t_topic set like_count = like_count + 1 where id = ?", topicId).Error
-	})
-}
-
-// 动态点赞
-func (s *userLikeService) TweetLike(userId int64, tweetId int64) error {
-	tweet := repositories.TweetRepository.Get(simple.DB(), tweetId)
-	if tweet == nil || tweet.Status != constants.StatusOk {
-		return errors.New("动态不存在")
+	}); err != nil {
+		return err
 	}
-	return simple.DB().Transaction(func(tx *gorm.DB) error {
-		if err := s.like(tx, userId, constants.EntityTweet, tweetId); err != nil {
-			return err
-		}
-		// 更新点赞数
-		return tx.Exec("update t_tweet set like_count = like_count + 1 where id = ?", tweetId).Error
-	})
+
+	// 发送消息
+	MessageService.SendTopicLikeMsg(topicId, userId)
+
+	return nil
 }
 
 func (s *userLikeService) like(db *gorm.DB, userId int64, entityType string, entityId int64) error {

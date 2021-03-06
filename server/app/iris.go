@@ -50,15 +50,12 @@ func InitIris() {
 	})
 
 	app.Any("/", func(i iris.Context) {
-		_, _ = i.HTML("<h1>Hello dog style.</h1>")
+		_, _ = i.HTML("<h1>Powered by bbs-go</h1>")
 	})
-
-	app.HandleDir("/images", "./data/images")
 
 	// api
 	mvc.Configure(app.Party("/api"), func(m *mvc.Application) {
 		m.Party("/topic").Handle(new(api.TopicController))
-		m.Party("/tweet").Handle(new(api.TweetController))
 		m.Party("/article").Handle(new(api.ArticleController))
 		m.Party("/project").Handle(new(api.ProjectController))
 		m.Party("/login").Handle(new(api.LoginController))
@@ -66,6 +63,8 @@ func InitIris() {
 		m.Party("/tag").Handle(new(api.TagController))
 		m.Party("/comment").Handle(new(api.CommentController))
 		m.Party("/favorite").Handle(new(api.FavoriteController))
+		m.Party("/like").Handle(new(api.LikeController))
+		m.Party("/checkin").Handle(new(api.CheckinController))
 		m.Party("/config").Handle(new(api.ConfigController))
 		m.Party("/upload").Handle(new(api.UploadController))
 		m.Party("/link").Handle(new(api.LinkController))
@@ -88,7 +87,6 @@ func InitIris() {
 		m.Party("/favorite").Handle(new(admin.FavoriteController))
 		m.Party("/article-tag").Handle(new(admin.ArticleTagController))
 		m.Party("/topic").Handle(new(admin.TopicController))
-		m.Party("/tweet").Handle(new(admin.TweetController))
 		m.Party("/topic-node").Handle(new(admin.TopicNodeController))
 		m.Party("/sys-config").Handle(new(admin.SysConfigController))
 		m.Party("/link").Handle(new(admin.LinkController))

@@ -1,17 +1,24 @@
 <template>
   <section class="main">
-    <div class="container main-container left-main">
+    <div class="container main-container left-main size-360">
       <div class="left-container">
-        <div class="main-content">
-          <topics-nav :nodes="nodes" />
-          <topic-list :topics="topicsPage.results" :show-ad="true" />
-          <pagination :page="topicsPage.page" url-prefix="/topics?p=" />
+        <div class="main-content no-padding no-bg topics-wrapper">
+          <div class="topics-nav"><topics-nav :nodes="nodes" /></div>
+          <div class="topics-main">
+            <load-more
+              v-if="topicsPage"
+              v-slot="{ results }"
+              :init-data="topicsPage"
+              url="/api/topic/topics"
+            >
+              <topic-list :topics="results" :show-ad="true" />
+            </load-more>
+          </div>
         </div>
       </div>
       <div class="right-container">
         <check-in />
         <site-notice />
-        <tweets-widget :tweets="newestTweets" />
         <score-rank :score-rank="scoreRank" />
         <friend-links :links="links" />
       </div>
@@ -24,42 +31,30 @@ import CheckIn from '~/components/CheckIn'
 import SiteNotice from '~/components/SiteNotice'
 import ScoreRank from '~/components/ScoreRank'
 import FriendLinks from '~/components/FriendLinks'
-import TopicsNav from '~/components/TopicsNav'
-import TopicList from '~/components/TopicList'
-import TweetsWidget from '~/components/TweetsWidget'
-import Pagination from '~/components/Pagination'
+import TopicsNav from '~/components/topic/TopicsNav'
+import TopicList from '~/components/topic/TopicList'
+import LoadMore from '~/components/LoadMore'
 
 export default {
   components: {
     CheckIn,
     SiteNotice,
-    ScoreRank,
     FriendLinks,
     TopicsNav,
     TopicList,
-    TweetsWidget,
-    Pagination,
+    LoadMore,
+    // conflict
+    ScoreRank,
   },
   async asyncData({ $axios, query }) {
     try {
-      const [
-        nodes,
-        topicsPage,
-        scoreRank,
-        links,
-        newestTweets,
-      ] = await Promise.all([
+      const [nodes, topicsPage, scoreRank, links] = await Promise.all([
         $axios.get('/api/topic/nodes'),
-        $axios.get('/api/topic/topics', {
-          params: {
-            page: query.p || 1,
-          },
-        }),
+        $axios.get('/api/topic/topics'),
         $axios.get('/api/user/score/rank'),
         $axios.get('/api/link/toplinks'),
-        $axios.get('/api/tweet/newest'),
       ])
-      return { nodes, topicsPage, scoreRank, links, newestTweets }
+      return { nodes, topicsPage, scoreRank, links }
     } catch (e) {
       console.error(e)
     }

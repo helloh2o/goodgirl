@@ -1,9 +1,7 @@
 <template>
   <div class="user-simple">
     <div class="base-info">
-      <a :href="'/user/' + user.id" :alt="user.nickname">
-        <img :src="user.smallAvatar" :alt="user.nickname" class="avatar" />
-      </a>
+      <avatar :user="user" size="80" :extra-style="{ margin: '0 auto' }" />
       <div class="nickname">
         <a :href="'/user/' + user.id" :alt="user.nickname">{{
           user.nickname
@@ -29,7 +27,9 @@
 </template>
 
 <script>
+import Avatar from '~/components/Avatar'
 export default {
+  components: { Avatar },
   props: {
     user: {
       type: Object,
@@ -42,11 +42,11 @@ export default {
 .user-simple {
   background: #fff;
   padding: 0;
-  margin: 10px 0;
+  margin: 0 0 10px 0;
 
   .user-background {
     text-align: center;
-    background-image: url('https://file.mlog.club/images/2020/10/13/6e7933f5c9b2fe515210a17ea1762105.jpg!768_auto');
+    // background-image: url('https://file.mlog.club/images/2020/10/13/6e7933f5c9b2fe515210a17ea1762105.jpg!768_auto');
     background-size: cover;
     background-position: 50%;
   }
@@ -55,23 +55,17 @@ export default {
     padding: 10px;
     text-align: center;
 
-    .avatar {
-      min-width: 80px;
-      min-height: 80px;
-      width: 80px;
-      height: 80px;
-    }
-
     .nickname {
       font-size: 15px;
       font-weight: 700;
+      margin: 10px auto;
       a:hover {
         text-decoration: underline;
       }
     }
 
     .description {
-      text-align: left;
+      text-align: center;
       font-size: 13px;
       margin-top: 5px;
       overflow: hidden;

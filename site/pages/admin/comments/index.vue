@@ -17,7 +17,6 @@
           >
             <el-option label="话题" value="topic"></el-option>
             <el-option label="文章" value="article"></el-option>
-            <el-option label="动态" value="tweet"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -47,10 +46,7 @@
       <ul class="comments">
         <li v-for="item in results" :key="item.id">
           <div class="comment-item">
-            <div
-              :style="{ backgroundImage: 'url(' + item.user.smallAvatar + ')' }"
-              class="avatar"
-            ></div>
+            <avatar :user="item.user" />
             <div class="content">
               <div class="meta">
                 <span class="nickname"
@@ -108,8 +104,10 @@
 </template>
 
 <script>
+import Avatar from '~/components/Avatar'
 export default {
   layout: 'admin',
+  components: { Avatar },
   data() {
     return {
       results: [],
@@ -190,20 +188,9 @@ export default {
         width: 100%;
         display: flex;
 
-        .avatar {
-          min-width: 40px;
-          min-height: 40px;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          margin-right: 10px;
-          background-repeat: no-repeat;
-          background-size: contain;
-          background-position: center;
-        }
-
         .content {
           width: 100%;
+          margin-left: 10px;
 
           .meta {
             span {

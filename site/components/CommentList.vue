@@ -24,7 +24,7 @@
             ad-layout-key="-ht-19-1m-3j+mu"
           />
           <div class="comment-avatar">
-            <img :src="comment.user.smallAvatar" class="avatar" />
+            <avatar :user="comment.user" size="35" />
           </div>
           <div class="comment-meta">
             <span
@@ -53,10 +53,7 @@
           <div class="comment-content content">
             <blockquote v-if="comment.quote" class="comment-quote">
               <div class="comment-quote-user">
-                <img
-                  :src="comment.quote.user.smallAvatar"
-                  class="avatar size-20"
-                />
+                <avatar :user="comment.quote.user" size="20" />
                 <a class="quote-nickname">{{ comment.quote.user.nickname }}</a>
                 <span class="quote-time">
                   {{ comment.quote.createTime | prettyDate }}
@@ -80,11 +77,12 @@
 </template>
 
 <script>
+import Avatar from '~/components/Avatar'
 import LoadMore from '~/components/LoadMore'
-import utils from '~/common/utils'
 
 export default {
   components: {
+    Avatar,
     LoadMore,
   },
   props: {
@@ -125,7 +123,7 @@ export default {
     },
     reply(quote) {
       if (!this.isLogin) {
-        utils.toSignin()
+        this.$toSignin()
       }
       this.$emit('reply', quote)
     },

@@ -42,7 +42,7 @@ func init() {
 	}
 
 	// 连接数据库
-	if err := simple.OpenDB(conf.MySqlUrl, gormConf, 10, 20, model.Models...); err != nil {
+	if err := simple.OpenDB(conf.MySqlUrl, gormConf, 80, 100, model.Models...); err != nil {
 		logrus.Error(err)
 	}
 }

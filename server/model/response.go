@@ -1,5 +1,7 @@
 package model
 
+import "bbs-go/model/constants"
+
 type UserInfo struct {
 	Id                   int64    `json:"id"`
 	Username             string   `json:"username"`
@@ -62,24 +64,24 @@ type SearchTopicResponse struct {
 }
 
 // 帖子列表返回实体
-type TopicSimpleResponse struct {
-	TopicId         int64          `json:"topicId"`
-	User            *UserInfo      `json:"user"`
-	Node            *NodeResponse  `json:"node"`
-	Tags            *[]TagResponse `json:"tags"`
-	Title           string         `json:"title"`
-	LastCommentTime int64          `json:"lastCommentTime"`
-	ViewCount       int64          `json:"viewCount"`
-	CommentCount    int64          `json:"commentCount"`
-	LikeCount       int64          `json:"likeCount"`
-	Liked           bool           `json:"liked"`
-	CreateTime      int64          `json:"createTime"`
-}
-
-// 帖子详情返回实体
 type TopicResponse struct {
-	TopicSimpleResponse
-	Content string `json:"content"`
+	TopicId         int64               `json:"topicId"`
+	Type            constants.TopicType `json:"type"`
+	User            *UserInfo           `json:"user"`
+	Node            *NodeResponse       `json:"node"`
+	Tags            *[]TagResponse      `json:"tags"`
+	Title           string              `json:"title"`
+	Summary         string              `json:"summary"`
+	Content         string              `json:"content"`
+	ImageList       []ImageInfo         `json:"imageList"`
+	LastCommentTime int64               `json:"lastCommentTime"`
+	ViewCount       int64               `json:"viewCount"`
+	CommentCount    int64               `json:"commentCount"`
+	LikeCount       int64               `json:"likeCount"`
+	Liked           bool                `json:"liked"`
+	CreateTime      int64               `json:"createTime"`
+	Recommend       bool                `json:"recommend"`
+	RecommendTime   int64               `json:"recommendTime"`
 }
 
 // 帖子列表返回实体
@@ -146,6 +148,7 @@ type MessageResponse struct {
 	MessageId    int64     `json:"messageId"`
 	From         *UserInfo `json:"from"`    // 消息发送人
 	UserId       int64     `json:"userId"`  // 消息接收人编号
+	Title        string    `json:"title"`   // 标题
 	Content      string    `json:"content"` // 消息内容
 	QuoteContent string    `json:"quoteContent"`
 	Type         int       `json:"type"`
