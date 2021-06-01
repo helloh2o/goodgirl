@@ -1,17 +1,18 @@
 <template>
+  <no-ssr>
   <div v-if="scoreRank && scoreRank.length" class="widget">
     <div class="widget-header">
-      <span class="widget-title">积分排行</span>
+      <span class="widget-title">Score Rank</span>
     </div>
     <div class="widget-content">
       <ul class="score-rank">
         <li v-for="user in scoreRank" :key="user.id">
           <a :href="'/user/' + user.id" class="score-user-avatar">
-            <img :src="user.smallAvatar" class="avatar size-30" />
+            <avatar :user="user" size="30" />
           </a>
           <div class="score-user-info">
             <a :href="'/user/' + user.id">{{ user.nickname }}</a>
-            <p>{{ user.topicCount }} 帖子 • {{ user.commentCount }} 评论</p>
+            <p>{{ user.topicCount }} Post • {{ user.commentCount }} Comment</p>
           </div>
           <div class="score-rank-info">
             <span class="score-user-score">
@@ -22,11 +23,14 @@
       </ul>
     </div>
   </div>
+  </no-ssr>
 </template>
 
 <script>
+import Avatar from '~/components/Avatar'
 export default {
   name: 'ScoreRank',
+  components: { Avatar },
   props: {
     scoreRank: {
       type: Array,
@@ -53,10 +57,6 @@ export default {
 
     .score-user-avatar {
       min-width: 30px;
-      .avatar {
-        width: 30px;
-        height: 30px;
-      }
     }
 
     .score-user-info {

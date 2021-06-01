@@ -11,7 +11,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'QQ 登录',
+      default: 'QQ Login',
     },
     refUrl: {
       // 登录来源地址，控制登录成功之后要跳到该地址
@@ -38,7 +38,7 @@ export default {
         window.location = ret.url
       } catch (e) {
         console.error(e)
-        this.$toast.error('登录失败：' + (e.message || e))
+        this.$message.error('Login Failed：' + (e.message || e))
       }
     },
   },

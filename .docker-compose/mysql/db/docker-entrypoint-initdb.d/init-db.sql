@@ -38,7 +38,7 @@ INSERT INTO t_user (`id`, `username`, `nickname`, `avatar`, `email`, `password`,
                     `roles`, `type`, `description`, `topic_count`, `comment_count`, `score`)
 SELECT 1,
        'admin',
-       '良家少女站长',
+       '码姑娘站长',
        '',
        'a@example.com',
        '$2a$10$ofA39bAFMpYpIX/Xiz7jtOMH9JnPvYfPRlzHXqAtLPFpbE/cLdjmS',
@@ -95,7 +95,7 @@ CREATE TABLE `t_sys_config`
 -- 初始化系统配置数据
 INSERT INTO t_sys_config(`key`, `value`, `name`, `description`, `create_time`, `update_time`)
 SELECT 'siteTitle',
-       '良家少女',
+       '码姑娘',
        '站点标题',
        '站点标题',
        (UNIX_TIMESTAMP(now()) * 1000),
@@ -105,7 +105,7 @@ WHERE NOT EXISTS(SELECT * FROM `t_sys_config` WHERE `key` = 'siteTitle');
 
 INSERT INTO t_sys_config (`key`, `value`, `name`, `description`, `create_time`, `update_time`)
 SELECT 'siteDescription',
-       '良家少女，一个充满魔性的交流社区。',
+       '码姑娘，一个充满魔性的交流社区。',
        '站点描述',
        '站点描述',
        (UNIX_TIMESTAMP(now()) * 1000),

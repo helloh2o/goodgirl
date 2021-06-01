@@ -16,9 +16,9 @@
       ref="tagInput"
       v-model="inputTag"
       :placeholder="
-        '标签（请用逗号分隔每个标签，最多' +
+        'Tags (please separate each tag with a comma, up to' +
         maxTagCount +
-        '个，每个最长15字符）'
+        'Each with a maximum of 15 characters)'
       "
       class="input"
       type="text"
@@ -259,8 +259,8 @@ export default {
   display: flex;
   background-color: #fff;
   border: 1px solid #dbdbdb;
-  //border-radius: 4px;
-  //box-shadow: inset 0 1px 2px rgba(10, 10, 10, .1);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
   color: #363636;
   padding: 0 8px;
 
@@ -275,16 +275,17 @@ export default {
     display: flex;
 
     span.tag-item {
-      margin: 5px 5px 5px 0;
+      margin: 5px 5px 5px 5px;
       padding: 0 5px;
       background: #eee;
       color: #000;
+      line-height: 30px;
 
       .text {
         text-align: center;
         vertical-align: middle;
         font-size: 12px;
-        color: rgba(0, 0, 0, 0.38);
+        color: rgba(0, 0, 0, 0.5);
         white-space: nowrap;
         display: inline-block;
 

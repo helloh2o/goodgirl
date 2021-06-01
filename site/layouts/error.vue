@@ -7,16 +7,16 @@
         </div>
         <div class="description">
           <span v-if="error.statusCode === 404">{{
-            error.message ? error.message : '页面没找到'
+            error.message ? error.message : 'Page not found'
           }}</span>
           <span v-if="error.statusCode === 403">{{
             error.message ? error.message : 'forbidden'
           }}</span>
-          <span v-else>{{ error.statusCode }} 页面异常</span>
+          <span v-else>{{ error.statusCode }} Page exception</span>
         </div>
         <div class="report">
           <a href="https://mlog.club/topic/create" target="_blank"
-            >点击这里反馈该问题>></a
+            >Click here to report the problem>></a
           >
         </div>
       </div>

@@ -12,13 +12,21 @@
             <i class="iconfont icon-upload" />
           </span>
           <span class="file-label">
-            更换背景
+            Change background
           </span>
         </span>
       </label>
     </div>
     <div class="profile-info">
-      <img :src="user.avatar" class="avatar" />
+      <avatar
+        v-if="backgroundImage"
+        :user="user"
+        :round="true"
+        :has-border="true"
+        size="100"
+        :extra-style="{ position: 'absolute', top: '50px' }"
+      />
+      <avatar v-else :user="user" :round="true" size="100" />
       <div class="meta">
         <h1>
           <a :href="'/user/' + user.id">{{ user.nickname }}</a>
@@ -38,7 +46,9 @@
 </template>
 
 <script>
+import Avatar from '~/components/Avatar'
 export default {
+  components: { Avatar },
   props: {
     user: {
       type: Object,
@@ -81,8 +91,9 @@ export default {
         // 重新加载数据
         this.user = await this.$store.dispatch('user/getCurrentUser')
 
-        this.$toast.success('背景设置成功')
+        this.$message.success('The background is set successfully')
       } catch (e) {
+        this.$message.error(e.message || e)
         console.error(e)
       }
     },
@@ -159,7 +170,7 @@ export default {
   }
 
   &.background {
-    // background-image: url('http://file.mlog.club/bg1.jpg!768_auto');
+    //background-image: url('http://file.mlog.club/bg1.jpg!768_auto');
     background-size: cover;
     background-position: 50%;
 
@@ -172,15 +183,6 @@ export default {
         rgba(255, 255, 255, 0.76),
         #dce9f25c
       );
-
-      .avatar {
-        max-width: 120px;
-        max-height: 120px;
-        min-width: 120px;
-        min-height: 120px;
-        top: 40px;
-        position: absolute;
-      }
 
       .meta {
         margin-left: 138px;

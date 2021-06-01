@@ -41,7 +41,7 @@
                   class="input"
                   type="text"
                   maxlength="30"
-                  placeholder="搜索"
+                  placeholder="Search"
                 />
                 <span class="icon is-medium is-right">
                   <i class="iconfont icon-search" />
@@ -50,10 +50,8 @@
             </form>
           </div>
 
-          <div class="navbar-item dropdown is-hoverable is-right">
-            <a href="/topic/create" title="发表话题" class="publish">
-              <i class="iconfont icon-publish"></i>
-            </a>
+          <div class="navbar-item">
+            <create-topic-btn />
           </div>
 
           <msg-notice v-if="user" />
@@ -63,30 +61,24 @@
               <strong>{{ user.nickname }}</strong>
             </a>
             <div class="navbar-dropdown">
-              <a class="navbar-item" href="/topic/create">
-                <i class="iconfont icon-topic" />&nbsp;发表话题
-              </a>
-              <a class="navbar-item" href="/article/create">
-                <i class="iconfont icon-publish" />&nbsp;发表文章
-              </a>
               <a class="navbar-item" href="/user/favorites">
-                <i class="iconfont icon-favorites" />&nbsp;我的收藏
+                <i class="iconfont icon-favorites" />&nbsp;Favorites
               </a>
               <a class="navbar-item" href="/user/settings">
-                <i class="iconfont icon-username" />&nbsp;编辑资料
+                <i class="iconfont icon-username" />&nbsp;Profile
               </a>
               <a v-if="isOwnerOrAdmin" class="navbar-item" href="/admin">
-                <i class="iconfont icon-dashboard" />&nbsp;后台管理
+                <i class="iconfont icon-dashboard" />&nbsp;Dashboard
               </a>
               <a class="navbar-item" @click="signout">
-                <i class="iconfont icon-log-out" />&nbsp;退出登录
+                <i class="iconfont icon-log-out" />&nbsp;Exit
               </a>
             </div>
           </div>
           <div v-else class="navbar-item">
             <div class="buttons">
-              <nuxt-link class="button is-success" to="/user/signin"
-                >登录
+              <nuxt-link class="button login-btn" to="/user/signin"
+                >Sign in
               </nuxt-link>
             </div>
           </div>
@@ -97,13 +89,14 @@
 </template>
 
 <script>
-import utils from '~/common/utils'
 import UserHelper from '~/common/UserHelper'
 import MsgNotice from '~/components/MsgNotice'
+import CreateTopicBtn from '~/components/topic/CreateTopicBtn'
 
 export default {
   components: {
     MsgNotice,
+    CreateTopicBtn,
   },
   data() {
     return {
@@ -125,7 +118,7 @@ export default {
     async signout() {
       try {
         await this.$store.dispatch('user/signout')
-        utils.linkTo('/')
+        this.$linkTo('/')
       } catch (e) {
         console.error(e)
       }
@@ -141,33 +134,41 @@ export default {
 .navbar {
   /*opacity: 0.99;*/
   /*border-bottom: 1px solid #e7edf3;*/
-  background-color: #fff;
 
   .navbar-item {
     font-weight: 700;
   }
 
   .publish {
-    color: #448ef6;
+    color: #fff;
+    background-color: #3174dc;
+    width: 100px;
     &:hover {
-      color: #222;
+      color: #fff;
+      background-color: #4d91fa;
+    }
+  }
+
+  .login-btn {
+    //border-width: 2px;
+    border-color: #000;
+    &:hover {
+      color: #7e7e7e;
+      border-color: #7e7e7e;
     }
   }
 }
 
 .searchFormDiv {
-  @media screen and (max-width: 768px) {
-    & {
-      display: none;
-    }
+  @media screen and (max-width: 1024px) {
+    display: none;
   }
-
   #searchForm {
     .input {
       box-shadow: none;
       border-radius: 20px;
-      background-color: #eeeee8;
-      transition: all 0.6s;
+      background-color: #fff;
+      transition: all 0.4s;
       float: right;
       position: relative;
 

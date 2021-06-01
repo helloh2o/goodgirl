@@ -6,14 +6,14 @@
           <div class="widget-header">
             <nav class="breadcrumb">
               <ul>
-                <li><a href="/">首页</a></li>
+                <li><a href="/">Home</a></li>
                 <li>
                   <a :href="'/user/' + user.id + '?tab=articles'">{{
                     user.nickname
                   }}</a>
                 </li>
                 <li class="is-active">
-                  <a href="#" aria-current="page">文章</a>
+                  <a href="#" aria-current="page">Article</a>
                 </li>
               </ul>
             </nav>
@@ -25,7 +25,7 @@
                   v-model="postForm.title"
                   class="input"
                   type="text"
-                  placeholder="标题"
+                  placeholder="Title"
                 />
               </div>
             </div>
@@ -36,7 +36,7 @@
                   ref="mdEditor"
                   v-model="postForm.content"
                   editor-id="articleCreateEditor"
-                  placeholder="请输入内容，将图片复制或拖入编辑器可上传"
+                  placeholder="Please enter the content, copy or drag the picture into the editor to upload"
                 />
               </div>
             </div>
@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import utils from '~/common/utils'
 import TagInput from '~/components/TagInput'
 import MarkdownHelp from '~/components/MarkdownHelp'
 import MarkdownEditor from '~/components/MarkdownEditor'
@@ -111,21 +110,21 @@ export default {
           tags: me.postForm.tags ? me.postForm.tags.join(',') : '',
         })
         this.$refs.mdEditor.clearCache()
-        this.$toast.success('提交成功', {
-          duration: 1000,
-          onComplete() {
-            utils.linkTo('/article/' + article.articleId)
+        this.$msg({
+          message: 'Submitted',
+          onClose() {
+            me.$linkTo('/article/' + article.articleId)
           },
         })
       } catch (e) {
         me.publishing = false
-        this.$toast.error('提交失败：' + (e.message || e))
+        this.$message.error('failed：' + (e.message || e))
       }
     },
   },
   head() {
     return {
-      title: this.$siteTitle('发表文章'),
+      title: this.$siteTitle('publish an article'),
     }
   },
 }

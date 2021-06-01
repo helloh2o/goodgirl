@@ -50,18 +50,18 @@
                 <div class="article-tool">
                   <span v-if="hasPermission">
                     <a @click="deleteArticle(article.articleId)">
-                      <i class="iconfont icon-delete" />&nbsp;删除
+                      <i class="iconfont icon-delete" />&nbsp;delete
                     </a>
                   </span>
                   <span v-if="hasPermission">
                     <a :href="'/article/edit/' + article.articleId">
-                      <i class="iconfont icon-edit" />&nbsp;修改
+                      <i class="iconfont icon-edit" />&nbsp;edit
                     </a>
                   </span>
                   <span>
                     <a @click="addFavorite(article.articleId)">
                       <i class="iconfont icon-favorite" />&nbsp;{{
-                        favorited ? '已收藏' : '收藏'
+                        favorited ? 'collected' : 'collect'
                       }}
                     </a>
                   </span>
@@ -70,7 +70,7 @@
                       href="javascript:void(0)"
                       style="cursor: default; text-decoration: none;"
                     >
-                      <i class="iconfont icon-shenhe" />&nbsp;审核中
+                      <i class="iconfont icon-shenhe" />&nbsp;under review
                     </a>
                   </span>
                 </div>
@@ -92,20 +92,20 @@
               itemprop="articleBody"
               v-html="article.content"
             ></div>
-          </div>
 
-          <div class="ad">
-            <!-- 展示广告 -->
-            <adsbygoogle ad-slot="1742173616" />
-          </div>
+            <div class="ad">
+              <!-- 展示广告 -->
+              <adsbygoogle ad-slot="1742173616" />
+            </div>
 
-          <!-- 评论 -->
-          <comment
-            :entity-id="article.articleId"
-            :comments-page="commentsPage"
-            :show-ad="true"
-            entity-type="article"
-          />
+            <!-- 评论 -->
+            <comment
+              :entity-id="article.articleId"
+              :comments-page="commentsPage"
+              :show-ad="true"
+              entity-type="article"
+            />
+          </div>
         </article>
       </div>
       <div class="right-container">
@@ -116,7 +116,7 @@
           v-if="relatedArticles && relatedArticles.length"
           class="widget no-margin"
         >
-          <div class="widget-header">相关文章</div>
+          <div class="widget-header">related articles</div>
           <div class="widget-content article-related">
             <ul>
               <li v-for="a in relatedArticles" :key="a.articleId">
@@ -136,7 +136,7 @@
         <adsbygoogle ad-slot="1742173616" />
 
         <div v-if="nearlyArticles && nearlyArticles.length" class="widget">
-          <div class="widget-header">近期文章</div>
+          <div class="widget-header">recent articles</div>
           <div class="widget-content article-related">
             <ul>
               <li v-for="a in nearlyArticles" :key="a.articleId">
@@ -160,7 +160,6 @@
 </template>
 
 <script>
-import utils from '~/common/utils'
 import UserHelper from '~/common/UserHelper'
 import Comment from '~/components/Comment'
 
@@ -262,21 +261,26 @@ export default {
         window.hljs.initHighlighting()
       }
     },
-    async deleteArticle(articleId) {
-      if (process.client && !window.confirm('是否确认删除该文章？')) {
+    deleteArticle(articleId) {
+      if (!process.client) {
         return
       }
-      try {
-        await this.$axios.post('/api/article/delete/' + articleId)
-        this.$toast.success('删除成功！', {
-          duration: 1000,
-          onComplete() {
-            utils.linkTo('/articles')
-          },
-        })
-      } catch (e) {
-        this.$toast.error('删除失败：' + (e.message || e))
-      }
+      const me = this
+      this.$confirm('Are you sure to delete this article?').then(function () {
+        me.$axios
+          .post('/api/article/delete/' + articleId)
+          .then(() => {
+            me.$msg({
+              message: 'delete',
+              onClose() {
+                me.$linkTo('/articles')
+              },
+            })
+          })
+          .catch((e) => {
+            me.$message.error('failed：' + (e.message || e))
+          })
+      })
     },
     async addFavorite(articleId) {
       try {
@@ -288,15 +292,15 @@ export default {
             },
           })
           this.favorited = false
-          this.$toast.success('已取消收藏！')
+          this.$message.success('Unfavored!')
         } else {
           await this.$axios.post('/api/article/favorite/' + articleId)
           this.favorited = true
-          this.$toast.success('收藏成功！')
+          this.$message.success('favored!')
         }
       } catch (e) {
         console.error(e)
-        this.$toast.error('收藏失败：' + (e.message || e))
+        this.$message.error('favored failed：' + (e.message || e))
       }
     },
   },

@@ -1,10 +1,10 @@
 <template>
   <section class="main">
-    <div class="container main-container left-main">
+    <div class="container main-container left-main size-320">
       <div class="left-container">
         <user-profile :user="currentUser" />
         <div class="widget">
-          <div class="widget-header">积分记录</div>
+          <div class="widget-header">Score records</div>
           <div class="widget-content">
             <ul class="score-logs">
               <li
@@ -13,7 +13,7 @@
                 :class="{ plus: scoreLog.type === 0 }"
               >
                 <span class="score-type">{{
-                  scoreLog.type === 0 ? '获得积分' : '减少积分'
+                  scoreLog.type === 0 ? 'Earn points' : 'Reduce points'
                 }}</span>
                 <span class="score-score"
                   ><i class="iconfont icon-score" /><span>{{

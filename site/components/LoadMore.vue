@@ -8,8 +8,9 @@
     <slot :results="results" />
     <div v-if="loading" class="load-more-loading">
       <div class="loading-animation" />
-      <span class="load-more-text">加载中...</span>
+      <span class="load-more-text">Loading...</span>
     </div>
+    <div v-if="!hasMore" class="no-more">No more data</div>
   </div>
 </template>
 
@@ -113,6 +114,13 @@ export default {
       color: #000;
       margin-left: 5px;
     }
+  }
+
+  .no-more {
+    text-align: center;
+    padding: 10px 0;
+    color: #8590a6;
+    font-size: 14px;
   }
 }
 </style>

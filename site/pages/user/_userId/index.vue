@@ -1,6 +1,6 @@
 <template>
   <section class="main">
-    <div class="container main-container left-main">
+    <div class="container main-container left-main size-320">
       <div class="left-container">
         <user-profile :user="user" />
 
@@ -12,7 +12,7 @@
                   <span class="icon is-small">
                     <i class="iconfont icon-topic" aria-hidden="true" />
                   </span>
-                  <span>话题</span>
+                  <span>Topic</span>
                 </a>
               </li>
               <li :class="{ 'is-active': activeTab === 'articles' }">
@@ -20,18 +20,26 @@
                   <span class="icon is-small">
                     <i class="iconfont icon-article" aria-hidden="true" />
                   </span>
-                  <span>文章</span>
+                  <span>Article</span>
                 </a>
               </li>
             </ul>
           </div>
 
           <div v-if="activeTab === 'topics'">
-            <div v-if="recentTopics && recentTopics.length">
-              <topic-list :topics="recentTopics" :show-avatar="false" />
-              <div class="more">
-                <a :href="'/user/' + user.id + '/topics'">查看更多&gt;&gt;</a>
-              </div>
+            <div
+              v-if="
+                topicsPage && topicsPage.results && topicsPage.results.length
+              "
+            >
+              <load-more
+                v-if="topicsPage"
+                v-slot="{ results }"
+                :init-data="topicsPage"
+                :url="'/api/topic/user/topics?userId=' + user.id"
+              >
+                <topic-list :topics="results" :show-avatar="false" />
+              </load-more>
             </div>
             <div v-else class="notification is-primary">
               暂无话题
@@ -39,14 +47,24 @@
           </div>
 
           <div v-if="activeTab === 'articles'">
-            <div v-if="recentArticles && recentArticles.length">
-              <article-list :articles="recentArticles" />
-              <div class="more">
-                <a :href="'/user/' + user.id + '/articles'">查看更多&gt;&gt;</a>
-              </div>
+            <div
+              v-if="
+                articlesPage &&
+                articlesPage.results &&
+                articlesPage.results.length
+              "
+            >
+              <load-more
+                v-if="articlesPage"
+                v-slot="{ results }"
+                :init-data="articlesPage"
+                :url="'/api/article/user/articles?userId=' + user.id"
+              >
+                <article-list :articles="results" />
+              </load-more>
             </div>
             <div v-else class="notification is-primary">
-              暂无文章
+              No article
             </div>
           </div>
         </div>
@@ -57,10 +75,11 @@
 </template>
 
 <script>
-import TopicList from '~/components/TopicList'
+import TopicList from '~/components/topic/TopicList'
 import ArticleList from '~/components/ArticleList'
 import UserProfile from '~/components/UserProfile'
 import UserCenterSidebar from '~/components/UserCenterSidebar'
+import LoadMore from '~/components/LoadMore'
 
 const defaultTab = 'topics'
 
@@ -70,6 +89,7 @@ export default {
     ArticleList,
     UserProfile,
     UserCenterSidebar,
+    LoadMore,
   },
   async asyncData({ $axios, params, query, error }) {
     let user
@@ -78,28 +98,28 @@ export default {
     } catch (err) {
       error({
         statusCode: 404,
-        message: err.message || '系统错误',
+        message: err.message || 'System error',
       })
       return
     }
 
     const activeTab = query.tab || defaultTab
-    let recentTopics = null
-    let recentArticles = null
+    let topicsPage = null
+    let articlesPage = null
     if (activeTab === 'topics') {
-      recentTopics = await $axios.get('/api/topic/user/recent', {
+      topicsPage = await $axios.get('/api/topic/user/topics', {
         params: { userId: params.userId },
       })
     } else if (activeTab === 'articles') {
-      recentArticles = await $axios.get('/api/article/user/recent', {
+      articlesPage = await $axios.get('/api/article/user/articles', {
         params: { userId: params.userId },
       })
     }
     return {
       activeTab,
       user,
-      recentTopics,
-      recentArticles,
+      topicsPage,
+      articlesPage,
     }
   },
   data() {

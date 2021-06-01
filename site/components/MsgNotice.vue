@@ -5,7 +5,7 @@
         :class="{ 'msg-flicker': msgcount > 0 }"
         href="/user/messages"
         class="msgicon"
-        title="消息"
+        title="Message"
       >
         <i class="iconfont icon-bell"></i>
         <sup v-if="msgcount > 0">{{ msgcount > 9 ? '9+' : msgcount }}</sup>
@@ -16,12 +16,14 @@
         <div class="msglist">
           <ul>
             <li v-for="msg in messages" :key="msg.messageId" class="msg-item">
-              <a href="/user/messages">{{ msg.content }}</a>
+              <a href="/user/messages">
+                {{ msg.from.id > 0 ? msg.from.nickname : '' }}{{ msg.title }}
+              </a>
             </li>
           </ul>
         </div>
         <div class="msgfooter">
-          <a href="/user/messages">消息中心&gt;&gt;</a>
+          <a href="/user/messages">Message Center&gt;&gt;</a>
         </div>
       </div>
     </div>

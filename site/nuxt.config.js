@@ -1,3 +1,6 @@
+const isProduction = process.env.NODE_ENV === 'production'
+const isDocker = process.env.NODE_ENV === 'docker'
+
 export default {
   server: {
     port: 3000,
@@ -18,16 +21,16 @@ export default {
     },
     title: '',
     meta: [
-      { charset: 'utf-8' },
+      {charset: 'utf-8'},
       {
         name: 'viewport',
         content:
           'width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui',
       },
-      { name: 'window-target', content: '_top' },
+      {name: 'window-target', content: '_top'},
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon_.ico' },
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
       {
         rel: 'alternate',
         type: 'application/atom+xml',
@@ -52,28 +55,37 @@ export default {
       },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_1142441_bu6x3hdokz.css',
+        href: '//at.alicdn.com/t/font_1142441_1or22jfsge3.css',
       },
     ],
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#FFB90F' },
+  loading: {color: '#FFB90F'},
   /*
    ** Global CSS
    */
-  css: [{ src: '~/assets/styles/main.scss', lang: 'scss' }],
+  css: [
+    'element-ui/lib/theme-chalk/index.css',
+    {src: '~/assets/styles/main.scss', lang: 'scss'},
+  ],
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/element-ui',
     '~/plugins/filters',
     '~/plugins/axios',
     '~/plugins/bbs-go',
-    { src: '~/plugins/infinite-scroll', ssr: false },
-    { src: '~/plugins/vue-lazyload', ssr: false },
+    {src: '~/plugins/infinite-scroll', ssr: false},
+    {src: '~/plugins/vue-lazyload', ssr: false},
   ],
+  // /*
+  //  ** Auto import components
+  //  ** See https://nuxtjs.org/api/configuration-components
+  //  */
+  // components: true,
   /*
    ** Nuxt.js dev-modules
    */
@@ -90,8 +102,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/eslint-module',
-    '@nuxtjs/toast',
-    ['cookie-universal-nuxt', { alias: 'cookies' }],
+    ['cookie-universal-nuxt', {alias: 'cookies'}],
     [
       '@nuxtjs/google-adsense',
       {
@@ -110,18 +121,7 @@ export default {
   },
 
   proxy: {
-    '/api/':
-      process.env.NODE_ENV === 'production'
-        ? 'http://127.0.0.1:8082'
-        : 'http://127.0.0.1:8082',
-  },
-
-  // Doc: https://github.com/shakee93/vue-toasted
-  // Doc: https://github.com/nuxt-community/modules/tree/master/packages/toast
-  toast: {
-    position: 'top-right',
-    duration: 2000, // Display time of the toast in millisecond
-    keepOnHover: true, // When mouse is over a toast's element, the corresponding duration timer is paused until the cursor leaves the element
+    '/api/': 'http://127.0.0.1:8082',
   },
 
   /*
@@ -146,6 +146,21 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
+    extend(config, ctx) {
+    },
+  },
+  babel: {
+    plugins: [
+      [
+        'component',
+        {
+          libraryName: 'element-ui',
+          styleLibraryName: 'theme-chalk',
+        },
+      ],
+    ],
+    presets(env, [preset, options]) {
+      return [['@nuxt/babel-preset-app', options]]
+    },
   },
 }

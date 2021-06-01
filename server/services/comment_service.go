@@ -98,9 +98,7 @@ func (s *commentService) Publish(userId int64, form *model.CreateCommentForm) (*
 	}
 
 	if form.EntityType == constants.EntityTopic {
-		TopicService.OnComment(form.EntityId, date.NowTimestamp())
-	} else if form.EntityType == constants.EntityTweet {
-		TweetService.OnComment(form.EntityId)
+		TopicService.OnComment(form.EntityId, comment)
 	}
 
 	UserService.IncrCommentCount(userId)         // 用户跟帖计数

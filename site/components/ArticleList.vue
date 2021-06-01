@@ -24,7 +24,7 @@
 
         <div class="article-meta">
           <span class="article-meta-item">
-            由
+            From
             <a
               :href="'/user/' + article.user.id"
               class="article-author"
@@ -32,7 +32,7 @@
               itemscope
               itemtype="http://schema.org/Person"
               ><span itemprop="name">{{ article.user.nickname }}</span></a
-            >发布于
+            >posted on
             <time
               :datetime="article.createTime | formatDate('yyyy-MM-ddTHH:mm:ss')"
               itemprop="datePublished"
@@ -63,7 +63,7 @@
                 font-size: 12px;
               "
             >
-              <i class="iconfont icon-shenhe" />&nbsp;审核中</a
+              <i class="iconfont icon-shenhe" />&nbsp;under review</a
             >
           </span>
         </div>

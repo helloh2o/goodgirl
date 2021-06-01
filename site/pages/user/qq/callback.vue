@@ -4,14 +4,13 @@
       <div class="modal-background" />
       <div class="modal-content">
         <div class="loading-animation" />
-        <span class="loading-text">登录中，请稍后...</span>
+        <span class="loading-text">Logging in, please wait...</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import utils from '~/common/utils'
 export default {
   layout: 'no-footer',
   asyncData({ params, query }) {
@@ -40,16 +39,17 @@ export default {
 
         if (this.ref) {
           // 跳到登录前
-          utils.linkTo(this.ref)
+          this.$linkTo(this.ref)
         } else {
           // 跳到个人主页
-          utils.linkTo('/user/' + user.id)
+          this.$linkTo('/user/' + user.id)
         }
       } catch (e) {
-        console.log(e)
-        this.$toast.error('登录失败：' + (e.message || e), {
-          onComplete() {
-            utils.linkTo('/user/signin')
+        const me = this
+        this.$msg({
+          message: 'Login failed' + (e.message || e),
+          onClose() {
+            me.$linkTo('/user/signin')
           },
         })
       } finally {
@@ -59,7 +59,7 @@ export default {
   },
   head() {
     return {
-      title: this.$siteTitle('登录处理中...'),
+      title: this.$siteTitle('Processing...'),
     }
   },
 }

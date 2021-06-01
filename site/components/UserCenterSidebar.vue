@@ -1,27 +1,25 @@
 <template>
   <div class="right-container">
-    <post-btns v-if="isOwner" />
-
     <div class="widget">
-      <div class="widget-header">个人成就</div>
+      <div class="widget-header">Personal achievements</div>
       <div class="widget-content extra-info">
         <ul>
           <li>
-            <span>积分</span><br />
+            <span>Score</span><br />
             <a href="/user/scores">
               <b>{{ user.score }}</b>
             </a>
           </li>
           <li>
-            <span>文章</span><br />
+            <span>Articles</span><br />
             <b>{{ user.topicCount }}</b>
           </li>
           <li>
-            <span>评论</span><br />
+            <span>Comment</span><br />
             <b>{{ user.commentCount }}</b>
           </li>
           <li>
-            <span>注册排名</span><br />
+            <span>Rank</span><br />
             <b>{{ user.id }}</b>
           </li>
         </ul>
@@ -29,31 +27,31 @@
     </div>
 
     <div v-if="isOwner || isAdmin" class="widget">
-      <div class="widget-header">操作</div>
+      <div class="widget-header">Operating</div>
       <div class="widget-content">
         <ul class="operations">
           <template v-if="isOwner">
             <li>
               <i class="iconfont icon-edit" />
-              <a href="/user/settings">&nbsp;编辑资料</a>
+              <a href="/user/settings">&nbsp;Edit profile</a>
             </li>
             <li>
               <i class="iconfont icon-message" />
-              <a href="/user/messages">&nbsp;消息</a>
+              <a href="/user/messages">&nbsp;Messages</a>
             </li>
             <li>
               <i class="iconfont icon-favorites" />
-              <a href="/user/favorites">&nbsp;收藏</a>
+              <a href="/user/favorites">&nbsp;Favorites</a>
             </li>
           </template>
           <template v-if="isAdmin">
             <li v-if="user.forbidden">
               <i class="iconfont icon-forbidden" />
-              <a @click="removeForbidden">&nbsp;取消禁言</a>
+              <a @click="removeForbidden">&nbsp;Unmute</a>
             </li>
             <li v-else>
               <i class="iconfont icon-forbidden" />
-              <a @click="forbidden">&nbsp;禁言</a>
+              <a @click="forbidden">&nbsp;Mute</a>
             </li>
           </template>
         </ul>
@@ -68,10 +66,8 @@
 </template>
 
 <script>
-import PostBtns from '~/components/PostBtns'
 import UserHelper from '~/common/UserHelper'
 export default {
-  components: { PostBtns },
   props: {
     user: {
       type: Object,
@@ -105,9 +101,9 @@ export default {
           days: 7,
         })
         this.user.forbidden = true
-        this.$toast.success('禁言成功')
+        this.$message.success('禁言成功')
       } catch (e) {
-        this.$toast.error('禁言失败')
+        this.$message.error('禁言失败')
       }
     },
     async removeForbidden() {
@@ -117,9 +113,9 @@ export default {
           days: 0,
         })
         this.user.forbidden = false
-        this.$toast.success('取消禁言成功')
+        this.$message.success('取消禁言成功')
       } catch (e) {
-        this.$toast.error('取消禁言失败')
+        this.$message.error('取消禁言失败')
       }
     },
   },
@@ -154,8 +150,6 @@ export default {
 
 .operations {
   list-style: none;
-  margin-top: 8px;
-  margin-left: 0px;
 
   li {
     padding-left: 3px;

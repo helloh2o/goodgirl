@@ -13,7 +13,7 @@
                     class="input"
                     type="text"
                     maxlength="30"
-                    placeholder="请输入搜索关键字"
+                    placeholder="input the keyword"
                   />
                 </div>
                 <div class="control">
@@ -21,7 +21,7 @@
                     <span class="icon">
                       <i class="iconfont icon-search" />
                     </span>
-                    <span>搜索</span>
+                    <span>Search</span>
                   </button>
                 </div>
               </div>
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div v-else-if="keyword" class="notification is-primary">
-          没搜索到内容，请换一个搜索关键字
+          not found result
         </div>
 
         <pagination

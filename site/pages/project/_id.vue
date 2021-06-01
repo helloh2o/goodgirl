@@ -37,17 +37,17 @@
               :href="projectUrl"
               class="homepage"
               target="_blank"
-              >项目主页</a
+              >Home</a
             >
             <a v-if="docUrl" :href="docUrl" class="homepage" target="_blank"
-              >文档地址</a
+              >Doc URL</a
             >
             <a
               v-if="downloadUrl"
               :href="downloadUrl"
               class="homepage"
               target="_blank"
-              >下载地址</a
+              >Download</a
             >
           </div>
         </div>

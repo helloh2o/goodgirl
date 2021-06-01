@@ -19,7 +19,6 @@ import (
 	"time"
 
 	"bbs-go/cache"
-	"bbs-go/common/avatar"
 	"bbs-go/common/uploader"
 
 	"bbs-go/model"
@@ -197,22 +196,7 @@ func (s *userService) SignUp(username, email, nickname, password, rePassword str
 		UpdateTime: date.NowTimestamp(),
 	}
 
-	err = simple.DB().Transaction(func(tx *gorm.DB) error {
-		if err := repositories.UserRepository.Create(tx, user); err != nil {
-			return err
-		}
-
-		avatarUrl, err := s.HandleAvatar(user.Id, "")
-		if err != nil {
-			return err
-		}
-
-		if err := repositories.UserRepository.UpdateColumn(tx, user.Id, "avatar", avatarUrl); err != nil {
-			return err
-		}
-		return nil
-	})
-
+	err = repositories.UserRepository.Create(simple.DB(), user)
 	if err != nil {
 		return nil, err
 	}
@@ -282,10 +266,7 @@ func (s *userService) SignInByThirdAccount(thirdAccount *model.ThirdAccount) (*m
 			return err
 		}
 
-		avatarUrl, err := s.HandleAvatar(user.Id, thirdAccount.Avatar)
-		if err != nil {
-			return err
-		}
+		avatarUrl := s.HandleThirdAvatar(thirdAccount.Avatar)
 
 		if err := repositories.UserRepository.UpdateColumn(tx, user.Id, "avatar", avatarUrl); err != nil {
 			return err
@@ -299,18 +280,16 @@ func (s *userService) SignInByThirdAccount(thirdAccount *model.ThirdAccount) (*m
 	return user, nil
 }
 
-// HandleAvatar 处理头像，优先级如下：1. 如果第三方登录带有来头像；2. 生成随机默认头像
-// thirdAvatar: 第三方登录带过来的头像
-func (s *userService) HandleAvatar(userId int64, thirdAvatar string) (string, error) {
-	if len(thirdAvatar) > 0 {
-		return uploader.CopyImage(thirdAvatar)
+// HandleThirdAvatar 处理第三方头像
+func (s *userService) HandleThirdAvatar(thirdAvatar string) string {
+	if simple.IsBlank(thirdAvatar) {
+		return ""
 	}
-
-	avatarBytes, err := avatar.Generate(userId)
+	avatar, err := uploader.CopyImage(thirdAvatar)
 	if err != nil {
-		return "", err
+		return ""
 	}
-	return uploader.PutImage(avatarBytes)
+	return avatar
 }
 
 // isEmailExists 邮箱是否存在
@@ -359,10 +338,21 @@ func (s *userService) SetEmail(userId int64, email string) error {
 	if err := validate.IsEmail(email); err != nil {
 		return err
 	}
+	user := s.Get(userId)
+	if user == nil {
+		return errors.New("用户不存在")
+	}
+	if user.Email.String == email {
+		// 用户邮箱没做变更
+		return nil
+	}
 	if s.isEmailExists(email) {
 		return errors.New("邮箱：" + email + " 已被占用")
 	}
-	return s.UpdateColumn(userId, "email", email)
+	return s.Updates(userId, map[string]interface{}{
+		"email":          email,
+		"email_verified": false,
+	})
 }
 
 // SetPassword 设置密码
@@ -474,7 +464,7 @@ func (s *userService) SendEmailVerifyEmail(userId int64) error {
 		}); err != nil {
 			return nil
 		}
-		if err := email.SendTemplateEmail(user.Email.String, subject, title, content, "", link); err != nil {
+		if err := email.SendTemplateEmail(nil, user.Email.String, subject, title, content, "", link); err != nil {
 			return err
 		}
 		return nil
@@ -491,6 +481,10 @@ func (s *userService) VerifyEmail(userId int64, token string) error {
 		return errors.New("非法验证码")
 	}
 
+	user := s.Get(userId)
+	if user == nil || emailCode.Email != user.Email.String {
+		return errors.New("验证码过期")
+	}
 	if date.FromTimestamp(emailCode.CreateTime).Add(time.Hour * time.Duration(emailVerifyExpireHour)).Before(time.Now()) {
 		return errors.New("验证邮件已过期")
 	}
