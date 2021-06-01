@@ -1,4 +1,4 @@
 # goodgirl
-基于BBS-GO修改，码姑娘，魔性社区  : )
+A golang bbs base on bbs-go, translated to english.
 # bbs-go 
 https://github.com/mlogclub/bbs-go
