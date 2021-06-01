@@ -106,7 +106,7 @@ Vue.use({
       const that = this
       this.$msg({
         type: 'error',
-        message: '请先登录',
+        message: 'Please sign in first',
         onClose() {
           that.$toSignin()
         },

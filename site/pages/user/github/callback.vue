@@ -4,7 +4,7 @@
       <div class="modal-background" />
       <div class="modal-content">
         <div class="loading-animation" />
-        <span class="loading-text">登录中，请稍后...</span>
+        <span class="loading-text">Logging in, please wait...</span>
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@ export default {
       } catch (e) {
         const me = this
         this.$msg({
-          message: '登录失败' + (e.message || e),
+          message: 'Login failed' + (e.message || e),
           onClose() {
             me.$linkTo('/user/signin')
           },
@@ -59,7 +59,7 @@ export default {
   },
   head() {
     return {
-      title: this.$siteTitle('登录处理中...'),
+      title: this.$siteTitle('Processing...'),
     }
   },
 }

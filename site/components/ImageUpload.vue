@@ -14,7 +14,7 @@
         :show-text="false"
         class="progress"
       />
-      <div v-show="image.progress < 100" class="cover">图片上传中...</div>
+      <div v-show="image.progress < 100" class="cover">Image uploading...</div>
       <div
         :class="{
           'upload-delete': true,
@@ -185,9 +185,9 @@ export default {
       )
     },
     removeItem(index) {
-      this.$confirm('确定删除此内容吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm('Are you sure to delete this content?', 'Warn', {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
         type: 'warning',
       }).then(
         () => {
@@ -197,10 +197,10 @@ export default {
           this.$emit('input', _fileList) // 避免和回显冲突，先修改 fileList
           setTimeout(() => {
             this.previewFiles.splice(index, 1)
-            this.$message.success('删除成功')
+            this.$message.success('deleted')
           }, 900)
         },
-        () => console.log('取消删除')
+        () => console.log('cancel')
       )
     },
     checkSizeLimit(files) {
@@ -212,13 +212,13 @@ export default {
       }
       if (!pass)
         this.$message.error(
-          `图片大小不可超过 ${this.sizeLimit / 1024 / 1024} MB`
+          `Image size can not exceed ${this.sizeLimit / 1024 / 1024} MB`
         )
       return pass
     },
     checkLengthLimit(files) {
       if (this.previewFiles.length + files.length > this.limit) {
-        this.$message.warning(`图片最多上传${this.limit}张`)
+        this.$message.warning(`Most pictures uploaded${this.limit}`)
         this.$emit('exceed', files)
         return false
       } else {

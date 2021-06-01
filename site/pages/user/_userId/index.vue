@@ -12,7 +12,7 @@
                   <span class="icon is-small">
                     <i class="iconfont icon-topic" aria-hidden="true" />
                   </span>
-                  <span>话题</span>
+                  <span>Topic</span>
                 </a>
               </li>
               <li :class="{ 'is-active': activeTab === 'articles' }">
@@ -20,7 +20,7 @@
                   <span class="icon is-small">
                     <i class="iconfont icon-article" aria-hidden="true" />
                   </span>
-                  <span>文章</span>
+                  <span>Article</span>
                 </a>
               </li>
             </ul>
@@ -64,7 +64,7 @@
               </load-more>
             </div>
             <div v-else class="notification is-primary">
-              暂无文章
+              No article
             </div>
           </div>
         </div>
@@ -98,7 +98,7 @@ export default {
     } catch (err) {
       error({
         statusCode: 404,
-        message: err.message || '系统错误',
+        message: err.message || 'System error',
       })
       return
     }

@@ -5,14 +5,14 @@
         <i class="iconfont icon-image" @click="showImageUpload = true" />
       </div>
       <div class="publish-container">
-        <span class="tip">还能输入{{ maxWordCount - wordCount }}个字</span>
+        <span class="tip">Can also enter{{ maxWordCount - wordCount }}words</span>
         <!--<button class="button is-success is-small">发 布</button>-->
       </div>
     </div>
     <label class="simple-editor-input">
       <textarea
         v-model="post.content"
-        placeholder="请输入您要发表的内容 ..."
+        placeholder="Please enter what you want to post ..."
         @input="onInput"
         @paste="handleParse"
         @drop="handleDrag"

@@ -9,14 +9,14 @@
       v-if="previousPageUrl"
       :href="previousPageUrl"
       class="pagination-previous"
-      >上一页</a
+      >Previous page</a
     >
-    <a v-else class="pagination-previous" disabled>上一页</a>
+    <a v-else class="pagination-previous" disabled>Next page</a>
 
     <a v-if="nextPageUrl" :href="nextPageUrl" class="pagination-previous"
-      >下一页</a
+      >Previous page</a
     >
-    <a v-else class="pagination-previous" disabled>下一页</a>
+    <a v-else class="pagination-previous" disabled>Next page</a>
 
     <ul class="pagination-list">
       <li v-for="p in pageList" :key="p">

@@ -1,21 +1,21 @@
 <template>
   <div class="widget">
-    <div class="widget-header">签到</div>
+    <div class="widget-header">Sign in</div>
     <div class="widget-content checkin">
       <div v-if="checkIn && checkIn.checkIn">
-        今日已签到
+        Signed in today
         <div>
-          已连续签到&nbsp;<b>{{ checkIn.consecutiveDays }}</b
-          >&nbsp;天
+          Checked in continuously&nbsp;<b>{{ checkIn.consecutiveDays }}</b
+          >&nbsp;days
         </div>
       </div>
       <div v-else>
-        <a @click="doCheckIn">立即签到</a>
-        <div style="color: #f14668;">签到可以获得积分哦!</div>
+        <a @click="doCheckIn">Sign in now</a>
+        <div style="color: #f14668;">Sign in to earn points!</div>
       </div>
 
       <div v-if="checkInRank && checkInRank.length" class="rank">
-        <div class="rank-title">今日排行</div>
+        <div class="rank-title">Today's ranking</div>
         <ul>
           <li v-for="rank in checkInRank" :key="rank.id">
             <avatar :user="rank.user" size="30" class="rank-user-avatar" />
@@ -74,7 +74,7 @@ export default {
       }
       try {
         await this.$axios.post('/api/checkin/checkin')
-        this.$message.success('签到成功')
+        this.$message.success('Sign in successfully')
         await this.getCheckIn()
         await this.loadCheckInRank()
       } catch (e) {

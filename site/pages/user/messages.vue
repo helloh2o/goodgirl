@@ -8,7 +8,7 @@
             <nav class="breadcrumb">
               <ul>
                 <li>
-                  <a href="/">首页</a>
+                  <a href="/">Home</a>
                 </li>
                 <li>
                   <a :href="'/user/' + currentUser.id">{{
@@ -16,7 +16,7 @@
                   }}</a>
                 </li>
                 <li class="is-active">
-                  <a href="#" aria-current="page">消息</a>
+                  <a href="#" aria-current="page">Message</a>
                 </li>
               </ul>
             </nav>
@@ -66,7 +66,7 @@
                       class="msg-attr message-show-more"
                     >
                       <a :href="message.detailUrl" target="_blank"
-                        >点击查看详情&gt;&gt;</a
+                        >Details&gt;&gt;</a
                       >
                     </div>
                   </div>
@@ -74,7 +74,7 @@
               </li>
             </ul>
             <div v-else class="notification is-primary">
-              暂无消息
+              No messages
             </div>
             <pagination
               :page="messagesPage.page"

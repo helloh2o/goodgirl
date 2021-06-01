@@ -47,7 +47,7 @@
               >
             </span>
             <span class="comment-reply">
-              <a @click="reply(comment)">回复</a>
+              <a @click="reply(comment)">Reply</a>
             </span>
           </div>
           <div class="comment-content content">

@@ -109,7 +109,7 @@
                 <a class="action disabled">
                   <i class="action-icon iconfont icon-read" />
                   <span class="content">
-                    <span>浏览</span>
+                    <span>Browse</span>
                     <span v-if="topic.viewCount > 0">
                       ({{ topic.viewCount }})
                     </span>
@@ -125,7 +125,7 @@
                     :class="{ 'checked-icon': liked }"
                   />
                   <span class="content">
-                    <span>点赞</span>
+                    <span>Like</span>
                     <span v-if="topic.likeCount > 0">
                       ({{ topic.likeCount }})
                     </span>
@@ -141,7 +141,7 @@
                     }"
                   />
                   <span class="content">
-                    <span>收藏</span>
+                    <span>Favorite</span>
                   </span>
                 </a>
               </div>
@@ -168,7 +168,7 @@
 
           <div v-if="topic.toc" ref="toc" class="widget no-bg toc">
             <div class="widget-header">
-              目录
+              Catalog
             </div>
             <div class="widget-content" v-html="topic.toc" />
           </div>
@@ -213,7 +213,7 @@ export default {
     } catch (e) {
       error({
         statusCode: 404,
-        message: '话题不存在',
+        message: 'Topic does not exist',
       })
       return
     }
@@ -272,15 +272,15 @@ export default {
             },
           })
           this.favorited = false
-          this.$message.success('已取消收藏！')
+          this.$message.success('Unfavorite')
         } else {
           await this.$axios.get('/api/topic/favorite/' + topicId)
           this.favorited = true
-          this.$message.success('收藏成功')
+          this.$message.success('Favorited')
         }
       } catch (e) {
         console.error(e)
-        this.$message.error('收藏失败：' + (e.message || e))
+        this.$message.error('Favorite failed：' + (e.message || e))
       }
     },
     async like(topic) {

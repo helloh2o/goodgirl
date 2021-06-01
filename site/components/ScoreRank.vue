@@ -2,7 +2,7 @@
   <no-ssr>
   <div v-if="scoreRank && scoreRank.length" class="widget">
     <div class="widget-header">
-      <span class="widget-title">积分排行</span>
+      <span class="widget-title">Score Rank</span>
     </div>
     <div class="widget-content">
       <ul class="score-rank">
@@ -12,7 +12,7 @@
           </a>
           <div class="score-user-info">
             <a :href="'/user/' + user.id">{{ user.nickname }}</a>
-            <p>{{ user.topicCount }} 帖子 • {{ user.commentCount }} 评论</p>
+            <p>{{ user.topicCount }} Post • {{ user.commentCount }} Comment</p>
           </div>
           <div class="score-rank-info">
             <span class="score-user-score">

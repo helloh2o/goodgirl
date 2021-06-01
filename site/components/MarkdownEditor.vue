@@ -23,7 +23,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '请输入...',
+      default: 'Input...',
     },
   },
   data() {

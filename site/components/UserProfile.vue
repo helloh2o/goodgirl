@@ -12,7 +12,7 @@
             <i class="iconfont icon-upload" />
           </span>
           <span class="file-label">
-            更换背景
+            Change background
           </span>
         </span>
       </label>
@@ -91,7 +91,7 @@ export default {
         // 重新加载数据
         this.user = await this.$store.dispatch('user/getCurrentUser')
 
-        this.$message.success('背景设置成功')
+        this.$message.success('The background is set successfully')
       } catch (e) {
         this.$message.error(e.message || e)
         console.error(e)

@@ -10,7 +10,7 @@
           </div>
           <div style="margin-top: 20px;">
             <a :href="url" rel="nofollow"
-              >即将跳往站外地址，点击该链接继续跳转&gt;&gt;</a
+              >About to jump to an off-site address, click on the link to continue to jump&gt;&gt;</a
             >
             <adsbygoogle ad-slot="1742173616" />
           </div>
@@ -22,7 +22,7 @@
                 class="widget"
               >
                 <div class="widget-header">
-                  推荐文章
+                  recommended article
                 </div>
                 <div class="widget-content">
                   <ul>
@@ -44,7 +44,7 @@
                 class="widget"
               >
                 <div class="widget-header">
-                  推荐话题
+                  Recommended topics
                 </div>
                 <div class="widget-content">
                   <ul>

@@ -2,14 +2,14 @@
   <footer class="footer">
     <div class="container content">
       <div>
-        <a href="/about">关于</a>
-        <a href="/tags">标签</a>
-        <a href="/links">友链</a>
+        <a href="/about">About</a>
+        <a href="/tags">Tags</a>
+        <a href="/links">Link</a>
       </div>
       <div>
-        © 2019 Powered by
-        <a href="http://docs.bbs-go.com" target="_blank" class="light"
-          >BBS-GO</a
+        © 2021 Powered by
+        <a href="http://cowxy.pro" target="_blank" class="light"
+          >Cow Proxy</a
         >
       </div>
     </div>

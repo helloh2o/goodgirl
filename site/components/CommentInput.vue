@@ -3,16 +3,16 @@
     <div v-if="isLogin" class="comment-create">
       <div ref="commentEditor" class="comment-input-wrapper">
         <div v-if="quote" class="comment-quote-info">
-          回复：
+          Reply：
           <label v-text="quote.user.nickname" />
-          <i class="iconfont icon-close" alt="取消回复" @click="cancelReply" />
+          <i class="iconfont icon-close" alt="cancel reply" @click="cancelReply" />
         </div>
         <markdown-editor
           ref="mdEditor"
           v-model="content"
           editor-id="createEditor"
           height="200px"
-          placeholder="请发表你的观点..."
+          placeholder="Please express your opinion..."
           @submit="create"
         />
       </div>
@@ -27,8 +27,8 @@
     </div>
     <div v-else class="comment-not-login">
       <div class="comment-login-div">
-        请
-        <a style="font-weight: 700;" @click="toLogin">登录</a>后发表观点
+        Please
+        <a style="font-weight: 700;" @click="toLogin">Login</a>before Post a point of view
       </div>
     </div>
   </div>

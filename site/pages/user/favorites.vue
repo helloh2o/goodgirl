@@ -7,14 +7,14 @@
           <div class="widget-header">
             <nav class="breadcrumb">
               <ul>
-                <li><a href="/">首页</a></li>
+                <li><a href="/">Home</a></li>
                 <li>
                   <a :href="'/user/' + currentUser.id">{{
                     currentUser.nickname
                   }}</a>
                 </li>
                 <li class="is-active">
-                  <a href="#" aria-current="page">收藏列表</a>
+                  <a href="#" aria-current="page">Favorite list</a>
                 </li>
               </ul>
             </nav>
@@ -25,7 +25,7 @@
               <li v-for="favorite in favorites" :key="favorite.favoriteId">
                 <article v-if="favorite.deleted" class="article-item">
                   <div class="article-summary">
-                    收藏内容失效!!!
+                    Favorite content is invalid!!!
                   </div>
                 </article>
                 <article v-else class="article-item">
@@ -48,11 +48,11 @@
                 </article>
               </li>
               <li v-if="hasMore" class="more">
-                <a @click="list">查看更多&gt;&gt;</a>
+                <a @click="list">More&gt;&gt;</a>
               </li>
             </ul>
             <div v-else class="notification is-primary">
-              暂无收藏
+              Nothing
             </div>
           </div>
         </div>

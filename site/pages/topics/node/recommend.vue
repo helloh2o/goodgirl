@@ -73,7 +73,7 @@ export default {
   },
   head() {
     return {
-      title: this.$siteTitle('热门话题'),
+      title: this.$siteTitle('Hot Topics'),
       meta: [
         {
           hid: 'description',

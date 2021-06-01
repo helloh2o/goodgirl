@@ -16,9 +16,9 @@
       ref="tagInput"
       v-model="inputTag"
       :placeholder="
-        '标签（请用逗号分隔每个标签，最多' +
+        'Tags (please separate each tag with a comma, up to' +
         maxTagCount +
-        '个，每个最长15字符）'
+        'Each with a maximum of 15 characters)'
       "
       class="input"
       type="text"

@@ -6,17 +6,17 @@
       @command="handlePostCommand"
     >
       <span class="el-dropdown-link">
-        <el-button type="primary" icon="el-icon-plus">发表</el-button>
+        <el-button type="primary" icon="el-icon-plus">Publish</el-button>
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="topic" icon="iconfont icon-topic"
-          >发帖子</el-dropdown-item
-        >
-        <el-dropdown-item command="tweet" icon="iconfont icon-tweet2"
-          >发动态</el-dropdown-item
+          >Post topic</el-dropdown-item
         >
         <el-dropdown-item command="article" icon="iconfont icon-article"
-          >发文章</el-dropdown-item
+          >Post an article</el-dropdown-item
+        >
+        <el-dropdown-item command="tweet" icon="iconfont icon-tweet2"
+        >Tweet</el-dropdown-item
         >
       </el-dropdown-menu>
     </el-dropdown>

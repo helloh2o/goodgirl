@@ -46,7 +46,7 @@ export default {
   },
   head() {
     return {
-      title: this.$siteTitle('开源项目'),
+      title: this.$siteTitle('Open Source Projects'),
       meta: [
         {
           hid: 'description',

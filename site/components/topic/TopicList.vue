@@ -49,15 +49,15 @@
         </div>
         <div class="topic-handlers">
           <div class="btn" :class="{ liked: topic.liked }" @click="like(topic)">
-            <i class="iconfont icon-like" />{{ topic.liked ? '已赞' : '赞' }}
+            <i class="iconfont icon-like" />{{ topic.liked ? 'Liked' : 'Like' }}
             <span v-if="topic.likeCount > 0">{{ topic.likeCount }}</span>
           </div>
           <div class="btn" @click="toTopicDetail(topic.topicId)">
-            <i class="iconfont icon-comments" />评论
+            <i class="iconfont icon-comments" />Comment
             <span v-if="topic.commentCount > 0">{{ topic.commentCount }}</span>
           </div>
           <div class="btn" @click="toTopicDetail(topic.topicId)">
-            <i class="iconfont icon-read" />浏览
+            <i class="iconfont icon-read" />View
             <span v-if="topic.viewCount > 0">{{ topic.viewCount }}</span>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default {
         await this.$axios.post('/api/topic/like/' + topic.topicId)
         topic.liked = true
         topic.likeCount++
-        this.$message.success('点赞成功')
+        this.$message.success('Liked')
       } catch (e) {
         if (e.errorCode === 1) {
           this.$msgSignIn()

@@ -2,10 +2,10 @@
   <nav class="dock-nav">
     <ul>
       <li :class="{ active: currentNodeId === 0 }">
-        <a href="/topics/node/newest">最新</a>
+        <a href="/topics/node/newest">Newest</a>
       </li>
       <li :class="{ active: currentNodeId === -1 }">
-        <a href="/topics/node/recommend">推荐</a>
+        <a href="/topics/node/recommend">Recommend</a>
       </li>
       <li class="dock-nav-divider"></li>
       <li

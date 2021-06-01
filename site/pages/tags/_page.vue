@@ -6,7 +6,7 @@
           <div class="main-body">
             <div class="widget">
               <div class="widget-header">
-                <span>标签</span>
+                <span>Tag</span>
               </div>
               <div class="widget-content">
                 <div class="tags are-medium">
@@ -66,7 +66,7 @@ export default {
   },
   head() {
     return {
-      title: this.$siteTitle('标签'),
+      title: this.$siteTitle('Tag'),
     }
   },
 }

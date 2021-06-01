@@ -14,11 +14,11 @@
     <div class="extra-info">
       <ul class="extra-data">
         <li>
-          <span>积分</span><br />
+          <span>Score</span><br />
           <b>{{ user.score }}</b>
         </li>
         <li>
-          <span>注册排名</span><br />
+          <span>Rank</span><br />
           <b>{{ user.id }}</b>
         </li>
       </ul>

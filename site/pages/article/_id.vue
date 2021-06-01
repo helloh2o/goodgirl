@@ -50,18 +50,18 @@
                 <div class="article-tool">
                   <span v-if="hasPermission">
                     <a @click="deleteArticle(article.articleId)">
-                      <i class="iconfont icon-delete" />&nbsp;删除
+                      <i class="iconfont icon-delete" />&nbsp;delete
                     </a>
                   </span>
                   <span v-if="hasPermission">
                     <a :href="'/article/edit/' + article.articleId">
-                      <i class="iconfont icon-edit" />&nbsp;修改
+                      <i class="iconfont icon-edit" />&nbsp;edit
                     </a>
                   </span>
                   <span>
                     <a @click="addFavorite(article.articleId)">
                       <i class="iconfont icon-favorite" />&nbsp;{{
-                        favorited ? '已收藏' : '收藏'
+                        favorited ? 'collected' : 'collect'
                       }}
                     </a>
                   </span>
@@ -70,7 +70,7 @@
                       href="javascript:void(0)"
                       style="cursor: default; text-decoration: none;"
                     >
-                      <i class="iconfont icon-shenhe" />&nbsp;审核中
+                      <i class="iconfont icon-shenhe" />&nbsp;under review
                     </a>
                   </span>
                 </div>
@@ -116,7 +116,7 @@
           v-if="relatedArticles && relatedArticles.length"
           class="widget no-margin"
         >
-          <div class="widget-header">相关文章</div>
+          <div class="widget-header">related articles</div>
           <div class="widget-content article-related">
             <ul>
               <li v-for="a in relatedArticles" :key="a.articleId">
@@ -136,7 +136,7 @@
         <adsbygoogle ad-slot="1742173616" />
 
         <div v-if="nearlyArticles && nearlyArticles.length" class="widget">
-          <div class="widget-header">近期文章</div>
+          <div class="widget-header">recent articles</div>
           <div class="widget-content article-related">
             <ul>
               <li v-for="a in nearlyArticles" :key="a.articleId">
@@ -266,19 +266,19 @@ export default {
         return
       }
       const me = this
-      this.$confirm('是否确认删除该文章？').then(function () {
+      this.$confirm('Are you sure to delete this article?').then(function () {
         me.$axios
           .post('/api/article/delete/' + articleId)
           .then(() => {
             me.$msg({
-              message: '删除成功',
+              message: 'delete',
               onClose() {
                 me.$linkTo('/articles')
               },
             })
           })
           .catch((e) => {
-            me.$message.error('删除失败：' + (e.message || e))
+            me.$message.error('failed：' + (e.message || e))
           })
       })
     },
@@ -292,15 +292,15 @@ export default {
             },
           })
           this.favorited = false
-          this.$message.success('已取消收藏！')
+          this.$message.success('Unfavored!')
         } else {
           await this.$axios.post('/api/article/favorite/' + articleId)
           this.favorited = true
-          this.$message.success('收藏成功！')
+          this.$message.success('favored!')
         }
       } catch (e) {
         console.error(e)
-        this.$message.error('收藏失败：' + (e.message || e))
+        this.$message.error('favored failed：' + (e.message || e))
       }
     },
   },

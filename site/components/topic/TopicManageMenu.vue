@@ -1,16 +1,16 @@
 <template>
   <el-dropdown v-if="hasPermission" @command="handleCommand">
     <span class="el-dropdown-link">
-      管理<i class="el-icon-arrow-down el-icon--right"></i>
+      management<i class="el-icon-arrow-down el-icon--right"></i>
     </span>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item v-if="topic.type === 0" command="edit"
-        >修改</el-dropdown-item
+        >modify</el-dropdown-item
       >
       <el-dropdown-item command="recommend">{{
-        topic.recommend ? '取消推荐' : '推荐'
+        topic.recommend ? 'Cancel recommendation' : 'recommendation'
       }}</el-dropdown-item>
-      <el-dropdown-item command="delete">删除</el-dropdown-item>
+      <el-dropdown-item command="delete">delete</el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
@@ -62,19 +62,19 @@ export default {
         return
       }
       const me = this
-      this.$confirm('是否确认删除该帖子？').then(function () {
+      this.$confirm('Are you sure to delete this post？').then(function () {
         me.$axios
           .post('/api/topic/delete/' + topicId)
           .then(() => {
             me.$msg({
-              message: '删除成功',
+              message: 'successfully deleted',
               onClose() {
                 me.$linkTo('/topics')
               },
             })
           })
           .catch((e) => {
-            me.$message.error('删除失败：' + (e.message || e))
+            me.$message.error('failed to delete：' + (e.message || e))
           })
       })
     },
@@ -83,19 +83,19 @@ export default {
     },
     switchRecommend(topic) {
       const me = this
-      const action = topic.recommend ? '取消推荐' : '推荐'
-      this.$confirm(`是否确认${action}该帖子？`).then(function () {
+      const action = topic.recommend ? 'Cancel recommendation' : 'recommendation'
+      this.$confirm(`Confirm${action}this post?`).then(function () {
         me.$axios
           .post('/api/topic/recommend/' + topic.topicId, {
             recommend: !topic.recommend,
           })
           .then(() => {
             me.$msg({
-              message: `${action}成功`,
+              message: `${action}success`,
             })
           })
           .catch((e) => {
-            me.$message.error(`${action}失败：` + (e.message || e))
+            me.$message.error(`${action}failed:` + (e.message || e))
           })
       })
     },

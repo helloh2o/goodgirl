@@ -6,14 +6,14 @@
           <div class="widget-header">
             <nav class="breadcrumb">
               <ul>
-                <li><a href="/">首页</a></li>
+                <li><a href="/">Home</a></li>
                 <li>
                   <a :href="'/user/' + currentUser.id + '?tab=topics'">{{
                     currentUser.nickname
                   }}</a>
                 </li>
                 <li class="is-active">
-                  <a href="#" aria-current="page">主题</a>
+                  <a href="#" aria-current="page">Theme</a>
                 </li>
               </ul>
             </nav>
@@ -26,13 +26,13 @@
                     v-model="postForm.title"
                     class="input"
                     type="text"
-                    placeholder="请输入标题"
+                    placeholder="input title"
                   />
                 </div>
                 <div class="field">
                   <div class="select">
                     <select v-model="postForm.nodeId">
-                      <option value="0">选择节点</option>
+                      <option value="0">Select Node</option>
                       <option
                         v-for="node in nodes"
                         :key="node.nodeId"
@@ -50,7 +50,7 @@
                 <markdown-editor
                   v-model="postForm.content"
                   editor-id="topicEditEditor"
-                  placeholder="可空，将图片复制或拖入编辑器可上传"
+                  placeholder="Can be empty, copy or drag the picture into the editor to upload"
                 />
               </div>
             </div>
@@ -68,7 +68,7 @@
                   :disabled="publishing"
                   class="button is-success"
                   @click="submitCreate"
-                  >提交更改</a
+                  >Commit changes</a
                 >
               </div>
             </div>
@@ -146,7 +146,7 @@ export default {
           }
         )
         this.$msg({
-          message: '修改成功',
+          message: 'Successfully',
           onClose() {
             me.$linkTo('/topic/' + topic.topicId)
           },
@@ -154,13 +154,13 @@ export default {
       } catch (e) {
         console.error(e)
         me.publishing = false
-        this.$message.error('提交失败：' + (e.message || e))
+        this.$message.error('Failed：' + (e.message || e))
       }
     },
   },
   head() {
     return {
-      title: this.$siteTitle('修改话题'),
+      title: this.$siteTitle('Edit topic'),
     }
   },
 }

@@ -4,17 +4,17 @@
       <div class="main-body no-bg">
         <div class="widget signup">
           <div class="widget-header">
-            注册
+            Sign up
           </div>
           <div class="widget-content">
             <div class="field">
-              <label class="label">昵称</label>
+              <label class="label">Nickname</label>
               <div class="control has-icons-left">
                 <input
                   v-model="nickname"
                   class="input is-success"
                   type="text"
-                  placeholder="请输入昵称"
+                  placeholder="Please enter a nickname"
                   @keyup.enter="signup"
                 />
                 <span class="icon is-small is-left">
@@ -24,13 +24,13 @@
             </div>
 
             <div class="field">
-              <label class="label">邮箱</label>
+              <label class="label">Email</label>
               <div class="control has-icons-left">
                 <input
                   v-model="email"
                   class="input is-success"
                   type="text"
-                  placeholder="请输入邮箱"
+                  placeholder="please input your email"
                   @keyup.enter="signup"
                 />
                 <span class="icon is-small is-left">
@@ -40,13 +40,13 @@
             </div>
 
             <div class="field">
-              <label class="label">密码</label>
+              <label class="label">Password</label>
               <div class="control has-icons-left">
                 <input
                   v-model="password"
                   class="input"
                   type="password"
-                  placeholder="请输入密码"
+                  placeholder="Please enter the password"
                   @keyup.enter="signup"
                 />
                 <span class="icon is-small is-left">
@@ -56,13 +56,13 @@
             </div>
 
             <div class="field">
-              <label class="label">确认密码</label>
+              <label class="label">confirm password</label>
               <div class="control has-icons-left">
                 <input
                   v-model="rePassword"
                   class="input"
                   type="password"
-                  placeholder="请再次输入密码"
+                  placeholder="Please enter the password again"
                   @keyup.enter="signup"
                 />
                 <span class="icon is-small is-left">
@@ -72,7 +72,7 @@
             </div>
 
             <div class="field">
-              <label class="label">验证码</label>
+              <label class="label">Captcha Code</label>
               <div class="control has-icons-left">
                 <div class="field is-horizontal">
                   <div class="field" style="width: 100%;">
@@ -80,7 +80,7 @@
                       v-model="captchaCode"
                       class="input"
                       type="text"
-                      placeholder="验证码"
+                      placeholder="Captcha Code"
                       @keyup.enter="signup"
                     />
                     <span class="icon is-small is-left"
@@ -99,7 +99,7 @@
             <div class="field">
               <div class="control">
                 <button class="button is-success" @click="signup">
-                  注册
+                  Sign up
                 </button>
                 <github-login :ref-url="ref" />
                 <qq-login :ref-url="ref" />
@@ -108,7 +108,7 @@
 
             <div class="field">
               <nuxt-link class="button is-text" to="/user/signin">
-                已有账号，前往登录&gt;&gt;
+                Already have an account, go to Sign in&gt;&gt;
               </nuxt-link>
             </div>
           </div>
@@ -182,7 +182,7 @@ export default {
   },
   head() {
     return {
-      title: this.$siteTitle('注册'),
+      title: this.$siteTitle('Sign up'),
     }
   },
 }

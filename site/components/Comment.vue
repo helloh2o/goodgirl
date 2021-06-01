@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="comment-header">
-      评论<span v-if="commentCount > 0">({{ commentCount }})</span>
+      Comment<span v-if="commentCount > 0">({{ commentCount }})</span>
     </div>
     <comment-input
       v-if="mode === 'markdown'"

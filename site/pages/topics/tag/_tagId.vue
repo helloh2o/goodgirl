@@ -67,7 +67,7 @@ export default {
   },
   head() {
     return {
-      title: this.$siteTitle(this.tag.tagName + ' - 话题'),
+      title: this.$siteTitle(this.tag.tagName + ' - Topic'),
       meta: [
         {
           hid: 'description',

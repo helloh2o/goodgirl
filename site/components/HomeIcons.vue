@@ -7,7 +7,7 @@
         ></a>
       </div>
       <div class="text">
-        <a href="/topics">码农社区 <i class="iconfont icon-arrowright"></i></a>
+        <a href="/topics">X community <i class="iconfont icon-arrowright"></i></a>
       </div>
     </div>
     <!--
@@ -24,7 +24,7 @@
       </div>
     </div>
     -->
-    <div class="item">
+    <!--<div class="item">
       <div class="icon">
         <a href="/topic/40"
           ><i class="iconfont icon-book" style="color: #fee83c;"></i
@@ -57,7 +57,7 @@
       <div class="text">
         <a href="/links">博客导航 <i class="iconfont icon-arrowright"></i></a>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 

@@ -2,7 +2,7 @@
   <section class="section">
     <div class="container">
       <div class="topic-create-form">
-        <h1 class="title">{{ postForm.type === 0 ? '发帖子' : '发动态' }}</h1>
+        <h1 class="title">{{ postForm.type === 0 ? 'Post' : 'Tweet' }}</h1>
 
         <div class="field">
           <div class="control">
@@ -24,7 +24,7 @@
               v-model="postForm.title"
               class="input topic-title"
               type="text"
-              placeholder="请输入帖子标题"
+              placeholder="Please enter the post title"
             />
           </div>
         </div>
@@ -35,7 +35,7 @@
               ref="mdEditor"
               v-model="postForm.content"
               editor-id="topicCreateEditor"
-              placeholder="请输入你要发表的内容..."
+              placeholder="Please enter what you want to post..."
             />
           </div>
         </div>
@@ -61,7 +61,7 @@
               v-model="captchaCode"
               class="input"
               type="text"
-              placeholder="验证码"
+              placeholder="Verification code"
               style="max-width: 150px; margin-right: 20px;"
             />
             <span class="icon is-small is-left">
@@ -82,7 +82,7 @@
               :disabled="publishing"
               class="button is-success"
               @click="submitCreate"
-              >{{ postForm.type === 1 ? '发表动态' : '发表帖子' }}</a
+              >{{ postForm.type === 1 ? 'Post' : 'Tweet' }}</a
             >
           </div>
         </div>
@@ -163,14 +163,14 @@ export default {
       }
 
       if (!this.postForm.nodeId) {
-        this.$message.error('请选择节点')
+        this.$message.error('Please select node')
         return
       }
 
       this.publishing = true
 
       if (this.$refs.simpleEditor && this.$refs.simpleEditor.isOnUpload()) {
-        this.$message.warning('图片正在上传中...请上传完成后提交')
+        this.$message.warning('The picture is uploading...please submit after uploading')
         return
       }
 
@@ -193,7 +193,7 @@ export default {
           this.$refs.mdEditor.clearCache()
         }
         this.$msg({
-          message: '提交成功',
+          message: 'Submitted successfully',
           onClose() {
             me.$linkTo('/topic/' + topic.topicId)
           },
@@ -226,7 +226,7 @@ export default {
   },
   head() {
     return {
-      title: this.$siteTitle(this.postForm.type === 1 ? '发动态' : '发帖子'),
+      title: this.$siteTitle(this.postForm.type === 1 ? 'Tweet' : 'Post'),
     }
   },
 }

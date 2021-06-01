@@ -3,7 +3,7 @@
     <div class="container">
       <div class="main-body">
         <div class="widget">
-          <div class="widget-header">友情链接</div>
+          <div class="widget-header">Friend Link</div>
           <div class="widget-content">
             <ul class="links">
               <li
@@ -57,7 +57,7 @@ export default {
   },
   head() {
     return {
-      title: this.$siteTitle('好博客'),
+      title: this.$siteTitle('nice blog'),
       meta: [
         {
           hid: 'description',

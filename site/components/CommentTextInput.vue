@@ -3,13 +3,13 @@
     <div v-if="isLogin" class="comment-create">
       <div ref="commentEditor" class="comment-input-wrapper">
         <div v-if="quote" class="comment-quote-info">
-          回复：
+          Reply:
           <label v-text="quote.user.nickname" />
-          <i class="iconfont icon-close" alt="取消回复" @click="cancelReply" />
+          <i class="iconfont icon-close" alt="Cancel reply" @click="cancelReply" />
         </div>
         <textarea
           v-model="content"
-          placeholder="请发表你的观点..."
+          placeholder="Please express your opinion..."
           class="text-input"
           @keydown.ctrl.enter="create"
           @keydown.meta.enter="create"
@@ -26,8 +26,8 @@
     </div>
     <div v-else class="comment-not-login">
       <div class="comment-login-div">
-        请
-        <a style="font-weight: 700;" @click="toLogin">登录</a>后发表观点
+        Please
+        <a style="font-weight: 700;" @click="toLogin">Login</a>before post a point of view
       </div>
     </div>
   </div>
@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     btnName() {
-      return this.sending ? '正在发表...' : '发表'
+      return this.sending ? 'Posting...' : 'Post'
     },
     user() {
       return this.$store.state.user.current
@@ -69,11 +69,11 @@ export default {
   methods: {
     async create() {
       if (!this.content) {
-        this.$message.error('请输入评论内容')
+        this.$message.error('Please enter the content of the comment')
         return
       }
       if (this.sending) {
-        console.log('正在发送中，请不要重复提交...')
+        console.log('Sending, please do not submit again...')
         return
       }
       this.sending = true
@@ -90,7 +90,7 @@ export default {
         this.quote = null
       } catch (e) {
         console.error(e)
-        this.$message.error('评论失败：' + (e.message || e))
+        this.$message.error('Comment failed：' + (e.message || e))
       } finally {
         this.sending = false
       }

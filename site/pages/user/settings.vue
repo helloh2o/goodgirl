@@ -7,13 +7,13 @@
             <nav class="breadcrumb">
               <ul>
                 <li>
-                  <a href="/">首页</a>
+                  <a href="/">Home</a>
                 </li>
                 <li>
                   <a :href="'/user/' + user.id">{{ user.nickname }}</a>
                 </li>
                 <li class="is-active">
-                  <a href="#" aria-current="page">编辑资料</a>
+                  <a href="#" aria-current="page">Edit profile</a>
                 </li>
               </ul>
             </nav>
@@ -21,13 +21,13 @@
           <div class="widget-content">
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">用户名：</label>
+                <label class="label">Username:</label>
               </div>
               <div class="field-body">
                 <div class="field">
                   <div class="control has-icons-left">
                     <label v-if="user.username">{{ user.username }}</label>
-                    <a v-else @click="showSetUsername = true">点击设置</a>
+                    <a v-else @click="showSetUsername = true">Settings</a>
                   </div>
                 </div>
               </div>
@@ -36,24 +36,24 @@
             <!-- 邮箱 -->
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">邮箱：</label>
+                <label class="label">Email:</label>
               </div>
               <div class="field-body">
                 <div class="field">
                   <div class="control has-icons-left">
                     <template v-if="user.email">
                       <label>{{ user.email }}</label>
-                      <a @click="showSetEmail = true">修改</a>
+                      <a @click="showSetEmail = true">Edit</a>
                       <a
                         v-if="!user.emailVerified"
                         class="has-text-danger"
                         style="font-weight: 700;"
                         @click="requestEmailVerify"
-                        >验证&gt;&gt;</a
+                        >Verify&gt;&gt;</a
                       >
                     </template>
                     <template v-else>
-                      <a @click="showSetEmail = true">点击设置</a>
+                      <a @click="showSetEmail = true">Set Email</a>
                     </template>
                   </div>
                 </div>
@@ -63,16 +63,16 @@
             <!-- 密码 -->
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">密码：</label>
+                <label class="label">Password:</label>
               </div>
               <div class="field-body">
                 <div class="field">
                   <div class="control has-icons-left">
                     <template v-if="user.passwordSet">
-                      <label>密码已设置&nbsp;</label>
-                      <a @click="showUpdatePassword = true">点击修改</a>
+                      <label>Password is set&nbsp;</label>
+                      <a @click="showUpdatePassword = true">Click edit</a>
                     </template>
-                    <a v-else @click="showSetPassword = true">点击设置</a>
+                    <a v-else @click="showSetPassword = true">Click Settings</a>
                   </div>
                 </div>
               </div>
@@ -82,7 +82,7 @@
             <div class="field is-horizontal">
               <div class="field-label is-normal">
                 <label class="label">
-                  <span style="color: red;">*&nbsp;</span>头像：
+                  <span style="color: red;">*&nbsp;</span>Avatar:
                 </label>
               </div>
               <div class="field-body">
@@ -105,12 +105,12 @@
                           <span class="file-icon">
                             <i class="iconfont icon-upload" />
                           </span>
-                          <span class="file-label">选择头像</span>
+                          <span class="file-label">Select avatar</span>
                         </span>
                       </label>
                     </div>
                     <span style="font-weight: bold; color: red;"
-                      >*图像必须为正方形，大小不要超过1M。</span
+                      >*The image must be square and the size should not exceed 1M.</span
                     >
                   </div>
                 </div>
@@ -121,7 +121,7 @@
             <div class="field is-horizontal">
               <div class="field-label is-normal">
                 <label class="label">
-                  <span style="color: red;">*&nbsp;</span>昵称：
+                  <span style="color: red;">*&nbsp;</span>Nickname:
                 </label>
               </div>
               <div class="field-body">
@@ -132,7 +132,7 @@
                       class="input"
                       type="text"
                       autocomplete="off"
-                      placeholder="请输入昵称"
+                      placeholder="input nickname"
                     />
                     <span class="icon is-small is-left">
                       <i class="iconfont icon-username" />
@@ -145,7 +145,7 @@
             <!-- 简介 -->
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">简介：</label>
+                <label class="label">Introduction:</label>
               </div>
               <div class="field-body">
                 <div class="field">
@@ -154,7 +154,7 @@
                       v-model="form.description"
                       class="textarea"
                       rows="2"
-                      placeholder="一句话介绍你自己"
+                      placeholder="Introduce yourself in one sentence"
                     />
                   </div>
                 </div>
@@ -164,7 +164,7 @@
             <!-- 个人主页 -->
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">个人主页：</label>
+                <label class="label">Homepage:</label>
               </div>
               <div class="field-body">
                 <div class="field">
@@ -174,7 +174,7 @@
                       class="input"
                       type="text"
                       autocomplete="off"
-                      placeholder="请输入个人主页"
+                      placeholder="Please enter your personal homepage"
                     />
                     <span class="icon is-small is-left">
                       <i class="iconfont icon-net" />
@@ -190,7 +190,7 @@
                 <div class="field">
                   <div class="control">
                     <a class="button is-success" @click="submitForm"
-                      >提交修改</a
+                      >Submit</a
                     >
                   </div>
                 </div>
@@ -208,7 +208,7 @@
       <div class="modal-card">
         <div class="widget">
           <div class="widget-header">
-            设置用户名
+            Set username
             <button
               class="delete"
               aria-label="close"
@@ -222,7 +222,7 @@
                   v-model="form.username"
                   class="input is-success"
                   type="text"
-                  placeholder="请输入用户名"
+                  placeholder="please enter user name"
                   @keydown.enter="setUsername"
                 />
                 <span class="icon is-small is-left">
@@ -232,8 +232,8 @@
             </div>
           </div>
           <div class="widget-footer is-right">
-            <a class="button is-success" @click="setUsername">确定</a>
-            <a class="button" @click="showSetUsername = false">取消</a>
+            <a class="button is-success" @click="setUsername">OK</a>
+            <a class="button" @click="showSetUsername = false">Cancel</a>
           </div>
         </div>
       </div>
@@ -245,7 +245,7 @@
       <div class="modal-card">
         <div class="widget">
           <div class="widget-header">
-            设置邮箱
+            Set up email
             <button
               class="delete"
               aria-label="close"
@@ -259,7 +259,7 @@
                   v-model="form.email"
                   class="input is-success"
                   type="text"
-                  placeholder="请输入邮箱"
+                  placeholder="please input your email"
                   @keydown.enter="setEmail"
                 />
                 <span class="icon is-small is-left">
@@ -269,8 +269,8 @@
             </div>
           </div>
           <div class="widget-footer is-right">
-            <a class="button is-success" @click="setEmail">确定</a>
-            <a class="button" @click="showSetEmail = false">取消</a>
+            <a class="button is-success" @click="setEmail">OK</a>
+            <a class="button" @click="showSetEmail = false">Cancel</a>
           </div>
         </div>
       </div>
@@ -282,7 +282,7 @@
       <div class="modal-card">
         <div class="widget">
           <div class="widget-header">
-            设置密码
+            set password
             <button
               class="delete"
               aria-label="close"
@@ -296,7 +296,7 @@
                   v-model="form.password"
                   class="input is-success"
                   type="password"
-                  placeholder="请输入密码"
+                  placeholder="Please enter the password"
                   @keydown.enter="setPassword"
                 />
                 <span class="icon is-small is-left">
@@ -310,7 +310,7 @@
                   v-model="form.rePassword"
                   class="input is-success"
                   type="password"
-                  placeholder="请再次确认密码"
+                  placeholder="Please confirm the password again"
                   @keydown.enter="setPassword"
                 />
                 <span class="icon is-small is-left">
@@ -320,8 +320,8 @@
             </div>
           </div>
           <div class="widget-footer is-right">
-            <a class="button is-success" @click="setPassword">确定</a>
-            <a class="button" @click="showSetPassword = false">取消</a>
+            <a class="button is-success" @click="setPassword">OK</a>
+            <a class="button" @click="showSetPassword = false">Cancel</a>
           </div>
         </div>
       </div>
@@ -333,7 +333,7 @@
       <div class="modal-card">
         <div class="widget">
           <div class="widget-header">
-            修改密码
+            change Password
             <button
               class="delete"
               aria-label="close"
@@ -347,7 +347,7 @@
                   v-model="form.oldPassword"
                   class="input is-success"
                   type="password"
-                  placeholder="请输入当前密码"
+                  placeholder="Please enter the current password"
                   @keydown.enter="updatePassword"
                 />
                 <span class="icon is-small is-left">
@@ -361,7 +361,7 @@
                   v-model="form.password"
                   class="input is-success"
                   type="password"
-                  placeholder="请输入密码"
+                  placeholder="Please enter the password"
                   @keydown.enter="updatePassword"
                 />
                 <span class="icon is-small is-left">
@@ -375,7 +375,7 @@
                   v-model="form.rePassword"
                   class="input is-success"
                   type="password"
-                  placeholder="请再次确认密码"
+                  placeholder="Please confirm the password again"
                   @keydown.enter="updatePassword"
                 />
                 <span class="icon is-small is-left">
@@ -385,8 +385,8 @@
             </div>
           </div>
           <div class="widget-footer is-right">
-            <a class="button is-success" @click="updatePassword">确定</a>
-            <a class="button" @click="showUpdatePassword = false">取消</a>
+            <a class="button is-success" @click="updatePassword">OK</a>
+            <a class="button" @click="showUpdatePassword = false">Cancel</a>
           </div>
         </div>
       </div>
@@ -446,10 +446,10 @@ export default {
           description: this.form.description,
         })
         await this.reload()
-        this.$message.success('资料修改成功')
+        this.$message.success('Submit successfully')
       } catch (e) {
         console.error(e)
-        this.$message.error('资料修改失败：' + (e.message || e))
+        this.$message.error('Edit failed：' + (e.message || e))
       }
     },
     async uploadAvatar(e) {
@@ -474,7 +474,7 @@ export default {
         // 重新加载数据
         await this.reload()
 
-        this.$message.success('头像更新成功')
+        this.$message.success('Avatar updated successfully')
       } catch (e) {
         console.error(e)
       }
@@ -486,10 +486,10 @@ export default {
           username: me.form.username,
         })
         await this.reload()
-        this.$message.success('用户名设置成功')
+        this.$message.success('Username is set successfully')
         this.showSetUsername = false
       } catch (err) {
-        this.$message.error('用户名设置失败：' + (err.message || err))
+        this.$message.error('Username setting failed:' + (err.message || err))
       }
     },
     async setEmail() {
@@ -499,10 +499,10 @@ export default {
           email: me.form.email,
         })
         await this.reload()
-        this.$message.success('邮箱设置成功')
+        this.$message.success('Email set successfully')
         this.showSetEmail = false
       } catch (err) {
-        this.$message.error('邮箱设置失败：' + (err.message || err))
+        this.$message.error('Email set failed:' + (err.message || err))
       }
     },
     async setPassword() {
@@ -513,10 +513,10 @@ export default {
           rePassword: me.form.rePassword,
         })
         await this.reload()
-        this.$message.success('密码设置成功')
+        this.$message.success('Password set successfully')
         this.showSetPassword = false
       } catch (err) {
-        this.$message.error('密码设置失败：' + (err.message || err))
+        this.$message.error('Password set failed:' + (err.message || err))
       }
     },
     async updatePassword() {
@@ -528,10 +528,10 @@ export default {
           rePassword: me.form.rePassword,
         })
         await this.reload()
-        this.$message.success('密码修改成功')
+        this.$message.success('Password reset complete')
         this.showUpdatePassword = false
       } catch (err) {
-        this.$message.error('密码修改失败：' + (err.message || err))
+        this.$message.error('Password change failed：' + (err.message || err))
       }
     },
     async reload() {
@@ -543,10 +543,10 @@ export default {
       try {
         await this.$axios.post('/api/user/email/verify')
         this.$message.success(
-          '邮件已经发送到你的邮箱：' + this.user.email + '，请注意查收。'
+          'The mail has been sent to your mailbox:' + this.user.email + ', Please pay attention to check.'
         )
       } catch (err) {
-        this.$message.error('请求验证失败：' + (err.message || err))
+        this.$message.error('Request verification failed:' + (err.message || err))
       } finally {
         this.$nuxt.$loading.finish()
       }
@@ -554,7 +554,7 @@ export default {
   },
   head() {
     return {
-      title: this.$siteTitle(this.user.nickname + ' - 编辑资料'),
+      title: this.$siteTitle(this.user.nickname + ' - Edit profile'),
     }
   },
 }

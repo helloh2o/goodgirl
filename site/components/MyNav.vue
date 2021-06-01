@@ -41,7 +41,7 @@
                   class="input"
                   type="text"
                   maxlength="30"
-                  placeholder="搜索"
+                  placeholder="Search"
                 />
                 <span class="icon is-medium is-right">
                   <i class="iconfont icon-search" />
@@ -62,23 +62,23 @@
             </a>
             <div class="navbar-dropdown">
               <a class="navbar-item" href="/user/favorites">
-                <i class="iconfont icon-favorites" />&nbsp;我的收藏
+                <i class="iconfont icon-favorites" />&nbsp;Favorites
               </a>
               <a class="navbar-item" href="/user/settings">
-                <i class="iconfont icon-username" />&nbsp;编辑资料
+                <i class="iconfont icon-username" />&nbsp;Profile
               </a>
               <a v-if="isOwnerOrAdmin" class="navbar-item" href="/admin">
-                <i class="iconfont icon-dashboard" />&nbsp;后台管理
+                <i class="iconfont icon-dashboard" />&nbsp;Dashboard
               </a>
               <a class="navbar-item" @click="signout">
-                <i class="iconfont icon-log-out" />&nbsp;退出登录
+                <i class="iconfont icon-log-out" />&nbsp;Exit
               </a>
             </div>
           </div>
           <div v-else class="navbar-item">
             <div class="buttons">
               <nuxt-link class="button login-btn" to="/user/signin"
-                >登录
+                >Sign in
               </nuxt-link>
             </div>
           </div>

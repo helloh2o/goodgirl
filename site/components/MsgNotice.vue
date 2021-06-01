@@ -5,7 +5,7 @@
         :class="{ 'msg-flicker': msgcount > 0 }"
         href="/user/messages"
         class="msgicon"
-        title="消息"
+        title="Message"
       >
         <i class="iconfont icon-bell"></i>
         <sup v-if="msgcount > 0">{{ msgcount > 9 ? '9+' : msgcount }}</sup>
@@ -23,7 +23,7 @@
           </ul>
         </div>
         <div class="msgfooter">
-          <a href="/user/messages">消息中心&gt;&gt;</a>
+          <a href="/user/messages">Message Center&gt;&gt;</a>
         </div>
       </div>
     </div>

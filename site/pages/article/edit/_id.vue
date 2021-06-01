@@ -6,14 +6,14 @@
           <div class="widget-header">
             <nav class="breadcrumb">
               <ul>
-                <li><a href="/">首页</a></li>
+                <li><a href="/">Home</a></li>
                 <li>
                   <a :href="'/user/' + currentUser.id + '?tab=topics'">{{
                     currentUser.nickname
                   }}</a>
                 </li>
                 <li class="is-active">
-                  <a href="#" aria-current="page">文章</a>
+                  <a href="#" aria-current="page">Article</a>
                 </li>
               </ul>
             </nav>
@@ -25,7 +25,7 @@
                   v-model="postForm.title"
                   class="input"
                   type="text"
-                  placeholder="标题"
+                  placeholder="Title"
                 />
               </div>
             </div>
@@ -35,7 +35,7 @@
                 <markdown-editor
                   v-model="postForm.content"
                   editor-id="articleEditEditor"
-                  placeholder="请输入内容，将图片复制或拖入编辑器可上传"
+                  placeholder="Please enter the content, copy or drag the picture into the editor to upload"
                 />
               </div>
             </div>
@@ -132,20 +132,20 @@ export default {
           }
         )
         this.$msg({
-          message: '删除成功',
+          message: 'deleted',
           onClose() {
             me.$linkTo('/article/' + article.articleId)
           },
         })
       } catch (e) {
         me.publishing = false
-        this.$message.error('提交失败：' + (e.message || e))
+        this.$message.error('failed：' + (e.message || e))
       }
     },
   },
   head() {
     return {
-      title: this.$siteTitle('修改文章'),
+      title: this.$siteTitle('modify articles'),
     }
   },
 }
