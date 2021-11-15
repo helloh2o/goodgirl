@@ -9,7 +9,7 @@
       <div>
         © 2021 Powered by
         <a href="http://cowxy.pro" target="_blank" class="light"
-          >Cow Proxy</a
+          >Free Proxy Club</a
         >
       </div>
     </div>
