@@ -23,17 +23,17 @@ type ArticleController struct {
 func (c *ArticleController) GetBy(articleId int64) *simple.JsonResult {
 	article := services.ArticleService.Get(articleId)
 	if article == nil || article.Status == constants.StatusDeleted {
-		return simple.JsonErrorCode(404, "文章不存在")
+		return simple.JsonErrorCode(404, "Article does not exist")
 	}
 
 	user := services.UserTokenService.GetCurrent(c.Ctx)
 	if user != nil {
 		if article.UserId != user.Id && article.Status == constants.StatusPending {
-			return simple.JsonErrorCode(403, "文章审核中")
+			return simple.JsonErrorCode(403, "Article under review")
 		}
 	} else {
 		if article.Status == constants.StatusPending {
-			return simple.JsonErrorCode(403, "文章审核中")
+			return simple.JsonErrorCode(403, "Article under review")
 		}
 	}
 
@@ -71,12 +71,12 @@ func (c *ArticleController) GetEditBy(articleId int64) *simple.JsonResult {
 
 	article := services.ArticleService.Get(articleId)
 	if article == nil || article.Status == constants.StatusDeleted {
-		return simple.JsonErrorMsg("话题不存在或已被删除")
+		return simple.JsonErrorMsg("The topic does not exist or has been deleted")
 	}
 
 	// 非作者、且非管理员
 	if article.UserId != user.Id && !user.HasAnyRole(constants.RoleAdmin, constants.RoleOwner) {
-		return simple.JsonErrorMsg("无权限")
+		return simple.JsonErrorMsg("No permission")
 	}
 
 	tags := services.ArticleService.GetArticleTags(articleId)
@@ -110,12 +110,12 @@ func (c *ArticleController) PostEditBy(articleId int64) *simple.JsonResult {
 
 	article := services.ArticleService.Get(articleId)
 	if article == nil || article.Status == constants.StatusDeleted {
-		return simple.JsonErrorMsg("文章不存在")
+		return simple.JsonErrorMsg("Article does not exist")
 	}
 
 	// 非作者、且非管理员
 	if article.UserId != user.Id && !user.HasAnyRole(constants.RoleAdmin, constants.RoleOwner) {
-		return simple.JsonErrorMsg("无权限")
+		return simple.JsonErrorMsg("No permission")
 	}
 
 	if err := services.ArticleService.Edit(articleId, tags, title, content); err != nil {
@@ -136,12 +136,12 @@ func (c *ArticleController) PostDeleteBy(articleId int64) *simple.JsonResult {
 
 	article := services.ArticleService.Get(articleId)
 	if article == nil || article.Status == constants.StatusDeleted {
-		return simple.JsonErrorMsg("文章不存在")
+		return simple.JsonErrorMsg("Article does not exist")
 	}
 
 	// 非作者、且非管理员
 	if article.UserId != user.Id && !user.HasAnyRole(constants.RoleAdmin, constants.RoleOwner) {
-		return simple.JsonErrorMsg("无权限")
+		return simple.JsonErrorMsg("No permission")
 	}
 
 	if err := services.ArticleService.Delete(articleId); err != nil {
@@ -170,7 +170,7 @@ func (c *ArticleController) PostFavoriteBy(articleId int64) *simple.JsonResult {
 func (c *ArticleController) GetRedirectBy(articleId int64) *simple.JsonResult {
 	article := services.ArticleService.Get(articleId)
 	if article == nil || article.Status != constants.StatusOk {
-		return simple.JsonErrorMsg("文章不存在")
+		return simple.JsonErrorMsg("Article does not exist")
 	}
 	return simple.NewEmptyRspBuilder().Put("url", urls.ArticleUrl(articleId)).JsonResult()
 }

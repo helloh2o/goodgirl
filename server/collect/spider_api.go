@@ -40,7 +40,7 @@ func (api *SpiderApi) Publish(article *Article) (articleId int64, err error) {
 
 func (api *SpiderApi) PublishComment(comment *Comment) (commentId int64, err error) {
 	if len(comment.Content) == 0 {
-		err = errors.New("评论内容不能为空")
+		err = errors.New("评论the content can not be blank")
 		return
 	}
 

@@ -74,13 +74,13 @@ func (s *commentService) Publish(userId int64, form *model.CreateCommentForm) (*
 	form.Content = strings.TrimSpace(form.Content)
 
 	if simple.IsBlank(form.EntityType) {
-		return nil, errors.New("参数非法")
+		return nil, errors.New("Illegal parameter")
 	}
 	if form.EntityId <= 0 {
-		return nil, errors.New("参数非法")
+		return nil, errors.New("Illegal parameter")
 	}
 	if simple.IsBlank(form.Content) {
-		return nil, errors.New("请输入评论内容")
+		return nil, errors.New("Please enter the content of the comment")
 	}
 
 	comment := &model.Comment{

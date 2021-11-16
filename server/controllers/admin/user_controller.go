@@ -95,7 +95,7 @@ func (c *UserController) PostForbidden() *simple.JsonResult {
 		return simple.JsonError(simple.ErrorNotLogin)
 	}
 	if !user.HasAnyRole(constants.RoleOwner, constants.RoleAdmin) {
-		return simple.JsonErrorMsg("无权限")
+		return simple.JsonErrorMsg("No permission")
 	}
 	var (
 		userId = simple.FormValueInt64Default(c.Ctx, "userId", 0)

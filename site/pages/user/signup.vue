@@ -101,8 +101,8 @@
                 <button class="button is-success" @click="signup">
                   Sign up
                 </button>
-                <github-login :ref-url="ref" />
-                <qq-login :ref-url="ref" />
+                <!--<github-login :ref-url="ref" />
+                <qq-login :ref-url="ref" />-->
               </div>
             </div>
 

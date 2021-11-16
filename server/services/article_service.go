@@ -145,10 +145,10 @@ func (s *articleService) Publish(userId int64, title, summary, content, contentT
 	content = strings.TrimSpace(content)
 
 	if simple.IsBlank(title) {
-		return nil, errors.New("标题不能为空")
+		return nil, errors.New("the title can not be blank")
 	}
 	if simple.IsBlank(content) {
-		return nil, errors.New("内容不能为空")
+		return nil, errors.New("the content can not be blank")
 	}
 
 	// 获取后台配置 否是开启发表文章审核
@@ -189,10 +189,10 @@ func (s *articleService) Publish(userId int64, title, summary, content, contentT
 // 修改文章
 func (s *articleService) Edit(articleId int64, tags []string, title, content string) *simple.CodeError {
 	if len(title) == 0 {
-		return simple.NewErrorMsg("请输入标题")
+		return simple.NewErrorMsg("Please enter a title")
 	}
 	if len(content) == 0 {
-		return simple.NewErrorMsg("请填写文章内容")
+		return simple.NewErrorMsg("Please fill in the content of the article")
 	}
 
 	err := simple.DB().Transaction(func(tx *gorm.DB) error {

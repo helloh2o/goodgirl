@@ -15,7 +15,7 @@ type ProjectController struct {
 func (c *ProjectController) GetBy(projectId int64) *simple.JsonResult {
 	project := services.ProjectService.Get(projectId)
 	if project == nil {
-		return simple.JsonErrorMsg("项目不存在")
+		return simple.JsonErrorMsg("Project not found")
 	}
 	return simple.JsonData(render.BuildProject(project))
 }

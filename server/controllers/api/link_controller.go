@@ -16,7 +16,7 @@ type LinkController struct {
 func (c *LinkController) GetBy(id int64) *simple.JsonResult {
 	link := services.LinkService.Get(id)
 	if link == nil || link.Status == constants.StatusDeleted {
-		return simple.JsonErrorMsg("数据不存在")
+		return simple.JsonErrorMsg("Not found")
 	}
 	return simple.JsonData(c.buildLink(*link))
 }

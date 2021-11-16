@@ -95,12 +95,12 @@ func (c *SpiderController) PostProjectPublish() *simple.JsonResult {
 	)
 
 	if len(name) == 0 || len(title) == 0 || len(content) == 0 {
-		return simple.JsonErrorMsg("数据不完善...")
+		return simple.JsonErrorMsg("data error ...")
 	}
 
 	temp := services.ProjectService.FindOne(simple.NewSqlCnd().Eq("name", name))
 	if temp != nil {
-		return simple.JsonErrorMsg("项目已经存在：" + name)
+		return simple.JsonErrorMsg("Project existed:" + name)
 	}
 
 	if len(contentType) == 0 {

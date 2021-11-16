@@ -119,11 +119,11 @@ func (s *topicService) Publish(userId int64, form model.CreateTopicForm) (*model
 		}
 	} else {
 		if simple.IsBlank(form.Title) {
-			return nil, simple.NewErrorMsg("标题不能为空")
+			return nil, simple.NewErrorMsg("The title can not be blank")
 		}
 
 		if simple.IsBlank(form.Content) {
-			return nil, simple.NewErrorMsg("内容不能为空")
+			return nil, simple.NewErrorMsg("the content can not be blank")
 		}
 
 		if simple.RuneLen(form.Title) > 128 {
@@ -188,7 +188,7 @@ func (s *topicService) Publish(userId int64, form model.CreateTopicForm) (*model
 // 更新
 func (s *topicService) Edit(topicId, nodeId int64, tags []string, title, content string) *simple.CodeError {
 	if len(title) == 0 {
-		return simple.NewErrorMsg("标题不能为空")
+		return simple.NewErrorMsg("The title can not be blank")
 	}
 
 	if simple.RuneLen(title) > 128 {

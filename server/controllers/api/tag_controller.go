@@ -18,7 +18,7 @@ type TagController struct {
 func (c *TagController) GetBy(tagId int64) *simple.JsonResult {
 	tag := cache.TagCache.Get(tagId)
 	if tag == nil {
-		return simple.JsonErrorMsg("标签不存在")
+		return simple.JsonErrorMsg("Tag not exist")
 	}
 	return simple.JsonData(render.BuildTag(tag))
 }

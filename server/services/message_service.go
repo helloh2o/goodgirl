@@ -101,8 +101,8 @@ func (s *messageService) SendTopicLikeMsg(topicId, likeUserId int64) {
 		return
 	}
 	var (
-		title        = "点赞了你的话题"
-		quoteContent = "《" + topic.GetTitle() + "》"
+		title        = "Liked your topic"
+		quoteContent = "<<" + topic.GetTitle() + ">>"
 	)
 	s.Produce(likeUserId, topic.UserId, title, "", quoteContent, constants.MsgTypeTopicLike, map[string]interface{}{
 		"topicId":    topicId,
@@ -120,8 +120,8 @@ func (s *messageService) SendTopicFavoriteMsg(topicId, favoriteUserId int64) {
 		return
 	}
 	var (
-		title        = "收藏了你的话题"
-		quoteContent = "《" + topic.GetTitle() + "》"
+		title        = "Bookmarked your topic"
+		quoteContent = "<<" + topic.GetTitle() + ">>"
 	)
 	s.Produce(favoriteUserId, topic.UserId, title, "", quoteContent, constants.MsgTypeTopicFavorite, map[string]interface{}{
 		"topicId":        topicId,
@@ -136,8 +136,8 @@ func (s *messageService) SendTopicRecommendMsg(topicId int64) {
 		return
 	}
 	var (
-		title        = "你的话题被设为推荐"
-		quoteContent = "《" + topic.GetTitle() + "》"
+		title        = "Your topic is set as a recommendation"
+		quoteContent = "<<" + topic.GetTitle() + ">>"
 	)
 	s.Produce(0, topic.UserId, title, "", quoteContent, constants.MsgTypeTopicRecommend, map[string]interface{}{
 		"topicId": topicId,
@@ -154,8 +154,8 @@ func (s *messageService) SendTopicDeleteMsg(topicId, deleteUserId int64) {
 		return
 	}
 	var (
-		title        = "你的话题被删除"
-		quoteContent = "《" + topic.GetTitle() + "》"
+		title        = "Your topic has been deleted"
+		quoteContent = "<<" + topic.GetTitle() + ">>"
 	)
 	s.Produce(0, topic.UserId, title, "", quoteContent, constants.MsgTypeTopicDelete, map[string]interface{}{
 		"topicId":      topicId,
@@ -177,15 +177,15 @@ func (s *messageService) SendCommentMsg(comment *model.Comment) {
 		article := repositories.ArticleRepository.Get(simple.DB(), comment.EntityId)
 		if article != nil {
 			toId = article.UserId
-			title = "回复了你的文章"
-			quoteContent = "《" + article.Title + "》"
+			title = "Replied to your article"
+			quoteContent = "<<" + article.Title + ">>"
 		}
 	} else if comment.EntityType == constants.EntityTopic { // 话题被评论
 		topic := repositories.TopicRepository.Get(simple.DB(), comment.EntityId)
 		if topic != nil {
 			toId = topic.UserId
-			title = "回复了你的话题"
-			quoteContent = "《" + topic.GetTitle() + "》"
+			title = "Replied to your topic"
+			quoteContent = "<<" + topic.GetTitle() + ">>"
 		}
 	}
 
@@ -209,7 +209,7 @@ func (s *messageService) SendCommentMsg(comment *model.Comment) {
 
 		// 给被引用的人发消息（收到他人回复）
 		if fromId != quote.UserId {
-			s.Produce(fromId, quote.UserId, "回复了你的评论", content, common.GetMarkdownSummary(quote.Content),
+			s.Produce(fromId, quote.UserId, "Replied to your comment", content, common.GetMarkdownSummary(quote.Content),
 				constants.MsgTypeCommentReply, map[string]interface{}{
 					"entityType": comment.EntityType,
 					"entityId":   comment.EntityId,
@@ -250,7 +250,7 @@ func (s *messageService) Produce(fromId, toId int64, title, content, quoteConten
 		err       error
 	)
 	if extraData, err = json.ToStr(extraDataMap); err != nil {
-		messageLog.Error("格式化extraData错误", err)
+		messageLog.Error("extraData", err)
 	}
 	s.messagesChan <- &model.Message{
 		FromId:       fromId,
@@ -269,13 +269,13 @@ func (s *messageService) Produce(fromId, toId int64, title, content, quoteConten
 func (s *messageService) Consume() {
 	s.messagesConsumeOnce.Do(func() {
 		go func() {
-			messageLog.Info("开始消费系统消息...")
+			messageLog.Info("Start consuming system messages...")
 			for {
 				msg := <-s.messagesChan
-				messageLog.Info("处理消息：from=", msg.FromId, " to=", msg.UserId)
+				messageLog.Info("Process the message from=", msg.FromId, " to=", msg.UserId)
 
 				if err := s.Create(msg); err != nil {
-					messageLog.Info("创建消息发生异常...", err)
+					messageLog.Info("Create message error ...", err)
 				} else {
 					s.SendEmailNotice(msg)
 				}
@@ -290,21 +290,21 @@ func (s *messageService) SendEmailNotice(msg *model.Message) {
 	if user != nil && len(user.Email.String) > 0 {
 		var (
 			siteTitle  = cache.SysConfigCache.GetValue(constants.SysConfigSiteTitle)
-			emailTitle = siteTitle + " - 新消息提醒"
+			emailTitle = siteTitle + " - new message"
 		)
 
 		if msg.Type == constants.MsgTypeTopicComment {
-			emailTitle = siteTitle + " - 收到话题评论"
+			emailTitle = siteTitle + " - Receive topic comments"
 		} else if msg.Type == constants.MsgTypeCommentReply {
-			emailTitle = siteTitle + " - 收到他人回复"
+			emailTitle = siteTitle + " - Received reply from others"
 		} else if msg.Type == constants.MsgTypeTopicLike {
-			emailTitle = siteTitle + " - 收到点赞"
+			emailTitle = siteTitle + " - Likes received"
 		} else if msg.Type == constants.MsgTypeTopicFavorite {
-			emailTitle = siteTitle + " - 话题被收藏"
+			emailTitle = siteTitle + " - Topic is bookmarked"
 		} else if msg.Type == constants.MsgTypeTopicRecommend {
-			emailTitle = siteTitle + " - 话题被设为推荐"
+			emailTitle = siteTitle + " - Topic is set as recommended"
 		} else if msg.Type == constants.MsgTypeTopicDelete {
-			emailTitle = siteTitle + " - 话题被删除"
+			emailTitle = siteTitle + " - Topic is deleted"
 		}
 
 		var from *model.User
@@ -313,14 +313,14 @@ func (s *messageService) SendEmailNotice(msg *model.Message) {
 		}
 		err := email.SendTemplateEmail(from, user.Email.String, emailTitle, emailTitle, msg.Content,
 			msg.QuoteContent, &model.ActionLink{
-				Title: "点击查看详情",
+				Title: "Click for details",
 				Url:   urls.AbsUrl("/user/messages"),
 			})
 		if err != nil {
 			logrus.Error(err)
 		}
 	} else {
-		messageLog.Info("邮件未发送，没设置邮箱...")
+		messageLog.Info("The mail is not sent, no mailbox is set...")
 	}
 }
 

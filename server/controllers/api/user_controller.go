@@ -33,7 +33,7 @@ func (c *UserController) GetBy(userId int64) *simple.JsonResult {
 	if user != nil && user.Status != constants.StatusDeleted {
 		return simple.JsonData(render.BuildUser(user))
 	}
-	return simple.JsonErrorMsg("用户不存在")
+	return simple.JsonErrorMsg("User does not exist")
 }
 
 // 修改用户资料
@@ -43,7 +43,7 @@ func (c *UserController) PostEditBy(userId int64) *simple.JsonResult {
 		return simple.JsonError(simple.ErrorNotLogin)
 	}
 	if user.Id != userId {
-		return simple.JsonErrorMsg("无权限")
+		return simple.JsonErrorMsg("No permission")
 	}
 	nickname := strings.TrimSpace(simple.FormValue(c.Ctx, "nickname"))
 	avatar := strings.TrimSpace(simple.FormValue(c.Ctx, "avatar"))
@@ -51,14 +51,14 @@ func (c *UserController) PostEditBy(userId int64) *simple.JsonResult {
 	description := simple.FormValue(c.Ctx, "description")
 
 	if len(nickname) == 0 {
-		return simple.JsonErrorMsg("昵称不能为空")
+		return simple.JsonErrorMsg("nickname can not be blank")
 	}
 	if len(avatar) == 0 {
-		return simple.JsonErrorMsg("头像不能为空")
+		return simple.JsonErrorMsg("avatar can not be blank")
 	}
 
 	if len(homePage) > 0 && validate.IsURL(homePage) != nil {
-		return simple.JsonErrorMsg("个人主页地址错误")
+		return simple.JsonErrorMsg("Personal homepage address is wrong")
 	}
 
 	err := services.UserService.Updates(user.Id, map[string]interface{}{
@@ -81,7 +81,7 @@ func (c *UserController) PostUpdateAvatar() *simple.JsonResult {
 	}
 	avatar := strings.TrimSpace(simple.FormValue(c.Ctx, "avatar"))
 	if len(avatar) == 0 {
-		return simple.JsonErrorMsg("头像不能为空")
+		return simple.JsonErrorMsg("avatar can not be blank")
 	}
 	err := services.UserService.UpdateAvatar(user.Id, avatar)
 	if err != nil {
@@ -158,7 +158,7 @@ func (c *UserController) PostSetBackgroundImage() *simple.JsonResult {
 	}
 	backgroundImage := simple.FormValue(c.Ctx, "backgroundImage")
 	if simple.IsBlank(backgroundImage) {
-		return simple.JsonErrorMsg("请上传图片")
+		return simple.JsonErrorMsg("Please upload a picture")
 	}
 	if err := services.UserService.UpdateBackgroundImage(user.Id, backgroundImage); err != nil {
 		return simple.JsonErrorMsg(err.Error())
@@ -264,7 +264,7 @@ func (c *UserController) PostForbidden() *simple.JsonResult {
 		return simple.JsonError(simple.ErrorNotLogin)
 	}
 	if !user.HasAnyRole(constants.RoleOwner, constants.RoleAdmin) {
-		return simple.JsonErrorMsg("无权限")
+		return simple.JsonErrorMsg("No permission")
 	}
 	var (
 		userId = simple.FormValueInt64Default(c.Ctx, "userId", 0)
@@ -272,7 +272,7 @@ func (c *UserController) PostForbidden() *simple.JsonResult {
 		reason = simple.FormValue(c.Ctx, "reason")
 	)
 	if userId < 0 {
-		return simple.JsonErrorMsg("请传入：userId")
+		return simple.JsonErrorMsg("Please input: userId")
 	}
 	if days == 0 {
 		services.UserService.RemoveForbidden(user.Id, userId, c.Ctx.Request())
@@ -304,7 +304,7 @@ func (c *UserController) GetEmailVerify() *simple.JsonResult {
 	}
 	token := simple.FormValue(c.Ctx, "token")
 	if simple.IsBlank(token) {
-		return simple.JsonErrorMsg("非法请求")
+		return simple.JsonErrorMsg("Illegal request")
 	}
 	if err := services.UserService.VerifyEmail(user.Id, token); err != nil {
 		return simple.JsonErrorMsg(err.Error())

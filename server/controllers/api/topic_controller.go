@@ -76,15 +76,15 @@ func (c *TopicController) GetEditBy(topicId int64) *simple.JsonResult {
 
 	topic := services.TopicService.Get(topicId)
 	if topic == nil || topic.Status != constants.StatusOk {
-		return simple.JsonErrorMsg("话题不存在或已被删除")
+		return simple.JsonErrorMsg("The topic does not exist or has been deleted")
 	}
 	if topic.Type != constants.TopicTypeTopic {
-		return simple.JsonErrorMsg("当前类型帖子不支持修改")
+		return simple.JsonErrorMsg("The current type of post does not support modification")
 	}
 
 	// 非作者、且非管理员
 	if topic.UserId != user.Id && !user.HasAnyRole(constants.RoleAdmin, constants.RoleOwner) {
-		return simple.JsonErrorMsg("无权限")
+		return simple.JsonErrorMsg("No permission")
 	}
 
 	tags := services.TopicService.GetTopicTags(topicId)
@@ -113,12 +113,12 @@ func (c *TopicController) PostEditBy(topicId int64) *simple.JsonResult {
 
 	topic := services.TopicService.Get(topicId)
 	if topic == nil || topic.Status != constants.StatusOk {
-		return simple.JsonErrorMsg("话题不存在或已被删除")
+		return simple.JsonErrorMsg("The topic does not exist or has been deleted")
 	}
 
 	// 非作者、且非管理员
 	if topic.UserId != user.Id && !user.HasAnyRole(constants.RoleAdmin, constants.RoleOwner) {
-		return simple.JsonErrorMsg("无权限")
+		return simple.JsonErrorMsg("No permission")
 	}
 
 	nodeId := simple.FormValueInt64Default(c.Ctx, "nodeId", 0)
@@ -150,7 +150,7 @@ func (c *TopicController) PostDeleteBy(topicId int64) *simple.JsonResult {
 
 	// 非作者、且非管理员
 	if topic.UserId != user.Id && !user.HasAnyRole(constants.RoleAdmin, constants.RoleOwner) {
-		return simple.JsonErrorMsg("无权限")
+		return simple.JsonErrorMsg("No permission")
 	}
 
 	if err := services.TopicService.Delete(topicId, user.Id, c.Ctx.Request()); err != nil {
@@ -170,7 +170,7 @@ func (c *TopicController) PostRecommendBy(topicId int64) *simple.JsonResult {
 		return simple.JsonError(simple.ErrorNotLogin)
 	}
 	if !user.HasAnyRole(constants.RoleOwner, constants.RoleAdmin) {
-		return simple.JsonErrorMsg("无权限")
+		return simple.JsonErrorMsg("No permission")
 	}
 
 	err = services.TopicService.SetRecommend(topicId, recommend)
@@ -184,7 +184,7 @@ func (c *TopicController) PostRecommendBy(topicId int64) *simple.JsonResult {
 func (c *TopicController) GetBy(topicId int64) *simple.JsonResult {
 	topic := services.TopicService.Get(topicId)
 	if topic == nil || topic.Status != constants.StatusOk {
-		return simple.JsonErrorMsg("主题不存在")
+		return simple.JsonErrorMsg("Subject does not exist")
 	}
 	services.TopicService.IncrViewCount(topicId) // 增加浏览量
 	return simple.JsonData(render.BuildTopic(topic))

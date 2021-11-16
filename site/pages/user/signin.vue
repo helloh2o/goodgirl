@@ -70,7 +70,7 @@
                 No account? Click here to register&gt;&gt;
               </nuxt-link>
             </div>
-            <div class="third-party-line">
+            <!--<div class="third-party-line">
               <div class="third-party-title">
                 <span>Third-party account login</span>
               </div>
@@ -78,7 +78,7 @@
             <div class="third-parties">
               <github-login :ref-url="ref" />
               <qq-login :ref-url="ref" />
-            </div>
+            </div>-->
           </div>
         </div>
       </div>

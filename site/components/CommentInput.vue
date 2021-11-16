@@ -74,7 +74,7 @@ export default {
   methods: {
     async create() {
       if (!this.content) {
-        this.$message.error('请输入评论内容')
+        this.$message.error('Please enter the content of the comment')
         return
       }
       if (this.sending) {

@@ -104,10 +104,10 @@ func (c *ArticleController) PostUpdate() *simple.JsonResult {
 
 	// 数据校验
 	if len(t.Title) == 0 {
-		return simple.JsonErrorMsg("标题不能为空")
+		return simple.JsonErrorMsg("The title can not be blank")
 	}
 	if len(t.Content) == 0 {
-		return simple.JsonErrorMsg("内容不能为空")
+		return simple.JsonErrorMsg("the content can not be blank")
 	}
 	if len(t.ContentType) == 0 {
 		return simple.JsonErrorMsg("请选择内容格式")

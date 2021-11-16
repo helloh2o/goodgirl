@@ -61,9 +61,9 @@ func notLogin(ctx iris.Context) {
 	ctx.StopExecution()
 }
 
-// noPermission 无权限返回
+// noPermission No permission返回
 func noPermission(ctx iris.Context) {
-	_, _ = ctx.JSON(simple.JsonErrorCode(2, "无权限"))
+	_, _ = ctx.JSON(simple.JsonErrorCode(2, "No permission"))
 	ctx.StopExecution()
 }
 

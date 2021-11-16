@@ -30,7 +30,7 @@ func (c *UploadController) Post() *simple.JsonResult {
 	defer file.Close()
 
 	if header.Size > uploadMaxBytes {
-		return simple.JsonErrorMsg("图片不能超过3M")
+		return simple.JsonErrorMsg("The picture cannot exceed 3M")
 	}
 
 	fileBytes, err := ioutil.ReadAll(file)
@@ -38,7 +38,7 @@ func (c *UploadController) Post() *simple.JsonResult {
 		return simple.JsonErrorMsg(err.Error())
 	}
 
-	logrus.Info("上传文件：", header.Filename, " size:", header.Size)
+	logrus.Info("Upload files: ", header.Filename, " size:", header.Size)
 
 	url, err := uploader.PutImage(fileBytes)
 	if err != nil {

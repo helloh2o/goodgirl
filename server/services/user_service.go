@@ -113,12 +113,12 @@ func (s *userService) Forbidden(operatorId, userId int64, days int, reason strin
 	} else if days > 0 {
 		forbiddenEndTime = date.Timestamp(time.Now().Add(time.Hour * 24 * time.Duration(days)))
 	} else {
-		return errors.New("禁言时间错误")
+		return errors.New("Mute time error")
 	}
 	if repositories.UserRepository.UpdateColumn(simple.DB(), userId, "forbidden_end_time", forbiddenEndTime) == nil {
 		description := ""
 		if simple.IsNotBlank(reason) {
-			description = "禁言原因：" + reason
+			description = "Forbidden:" + reason
 		}
 		OperateLogService.AddOperateLog(operatorId, constants.OpTypeForbidden, constants.EntityUser, userId,
 			description, r)
@@ -155,7 +155,7 @@ func (s *userService) SignUp(username, email, nickname, password, rePassword str
 
 	// 验证昵称
 	if len(nickname) == 0 {
-		return nil, errors.New("昵称不能为空")
+		return nil, errors.New("nickname can not be blank")
 	}
 
 	// 验证密码
@@ -170,10 +170,10 @@ func (s *userService) SignUp(username, email, nickname, password, rePassword str
 			return nil, err
 		}
 		if s.GetByEmail(email) != nil {
-			return nil, errors.New("邮箱：" + email + " 已被占用")
+			return nil, errors.New("Email：" + email + " has token")
 		}
 	} else {
-		return nil, errors.New("请输入邮箱")
+		return nil, errors.New("please input your email")
 	}
 
 	// 验证用户名
@@ -182,7 +182,7 @@ func (s *userService) SignUp(username, email, nickname, password, rePassword str
 			return nil, err
 		}
 		if s.isUsernameExists(username) {
-			return nil, errors.New("用户名：" + username + " 已被占用")
+			return nil, errors.New("Username:" + username + " has token")
 		}
 	}
 
@@ -206,10 +206,10 @@ func (s *userService) SignUp(username, email, nickname, password, rePassword str
 // SignIn 登录
 func (s *userService) SignIn(username, password string) (*model.User, error) {
 	if len(username) == 0 {
-		return nil, errors.New("用户名/邮箱不能为空")
+		return nil, errors.New("Username or email cannot be empty")
 	}
 	if len(password) == 0 {
-		return nil, errors.New("密码不能为空")
+		return nil, errors.New("password can not be blank")
 	}
 	var user *model.User = nil
 	if err := validate.IsEmail(username); err == nil { // 如果用户输入的是邮箱
@@ -218,10 +218,10 @@ func (s *userService) SignIn(username, password string) (*model.User, error) {
 		user = s.GetByUsername(username)
 	}
 	if user == nil || user.Status != constants.StatusOk {
-		return nil, errors.New("用户不存在或被禁用")
+		return nil, errors.New("User does not exist or is disabled")
 	}
 	if !simple.ValidatePassword(user.Password, password) {
-		return nil, errors.New("密码错误")
+		return nil, errors.New("wrong password")
 	}
 	return user, nil
 }
@@ -231,7 +231,7 @@ func (s *userService) SignInByThirdAccount(thirdAccount *model.ThirdAccount) (*m
 	user := s.Get(thirdAccount.UserId.Int64)
 	if user != nil {
 		if user.Status != constants.StatusOk {
-			return nil, simple.NewErrorMsg("用户已被禁用")
+			return nil, simple.NewErrorMsg("User has been disabled")
 		}
 		return user, nil
 	}
@@ -324,10 +324,10 @@ func (s *userService) SetUsername(userId int64, username string) error {
 
 	user := s.Get(userId)
 	if len(user.Username.String) > 0 {
-		return errors.New("你已设置了用户名，无法重复设置。")
+		return errors.New("You have already set a username, and you cannot set it again.")
 	}
 	if s.isUsernameExists(username) {
-		return errors.New("用户名：" + username + " 已被占用")
+		return errors.New("Username:" + username + " has token")
 	}
 	return s.UpdateColumn(userId, "username", username)
 }
@@ -340,14 +340,14 @@ func (s *userService) SetEmail(userId int64, email string) error {
 	}
 	user := s.Get(userId)
 	if user == nil {
-		return errors.New("用户不存在")
+		return errors.New("User does not exist")
 	}
 	if user.Email.String == email {
 		// 用户邮箱没做变更
 		return nil
 	}
 	if s.isEmailExists(email) {
-		return errors.New("邮箱：" + email + " 已被占用")
+		return errors.New("Email:" + email + " has token")
 	}
 	return s.Updates(userId, map[string]interface{}{
 		"email":          email,
@@ -362,7 +362,7 @@ func (s *userService) SetPassword(userId int64, password, rePassword string) err
 	}
 	user := s.Get(userId)
 	if len(user.Password) > 0 {
-		return errors.New("你已设置了密码，如需修改请前往修改页面。")
+		return errors.New("You have set a password. If you need to modify it, please go to the modification page.")
 	}
 	password = simple.EncodePassword(password)
 	return s.UpdateColumn(userId, "password", password)
@@ -376,11 +376,11 @@ func (s *userService) UpdatePassword(userId int64, oldPassword, password, rePass
 	user := s.Get(userId)
 
 	if len(user.Password) == 0 {
-		return errors.New("你没设置密码，请先设置密码")
+		return errors.New("You have not set a password, please set a password first")
 	}
 
 	if !simple.ValidatePassword(user.Password, oldPassword) {
-		return errors.New("旧密码验证失败")
+		return errors.New("Old password verification failed")
 	}
 
 	return s.UpdateColumn(userId, "password", simple.EncodePassword(password))
@@ -433,10 +433,10 @@ func (s *userService) SyncUserCount() {
 func (s *userService) SendEmailVerifyEmail(userId int64) error {
 	user := s.Get(userId)
 	if user == nil {
-		return errors.New("用户不存在")
+		return errors.New("User does not exist")
 	}
 	if user.EmailVerified {
-		return errors.New("用户邮箱已验证")
+		return errors.New("User email has been verified")
 	}
 	if err := validate.IsEmail(user.Email.String); err != nil {
 		return err
@@ -444,11 +444,11 @@ func (s *userService) SendEmailVerifyEmail(userId int64) error {
 	var (
 		token     = simple.UUID()
 		url       = urls.AbsUrl("/user/email/verify?token=" + token)
-		link      = &model.ActionLink{Title: "点击这里验证邮箱>>", Url: url}
+		link      = &model.ActionLink{Title: "Click here to verify email>>", Url: url}
 		siteTitle = cache.SysConfigCache.GetValue(constants.SysConfigSiteTitle)
-		subject   = "邮箱验证 - " + siteTitle
-		title     = "邮箱验证 - " + siteTitle
-		content   = "该邮件用于验证你在 " + siteTitle + " 中设置邮箱的正确性，请在" + strconv.Itoa(emailVerifyExpireHour) + "小时内完成验证。验证链接：" + url
+		subject   = "Email verify - " + siteTitle
+		title     = "Email verify - " + siteTitle
+		content   = "This email is used to verify that you are " + siteTitle + " the correctness of the mailbox settings in" + strconv.Itoa(emailVerifyExpireHour) + "hours. Verification link:" + url
 	)
 	return simple.DB().Transaction(func(tx *gorm.DB) error {
 		if err := repositories.EmailCodeRepository.Create(tx, &model.EmailCode{
@@ -475,18 +475,18 @@ func (s *userService) SendEmailVerifyEmail(userId int64) error {
 func (s *userService) VerifyEmail(userId int64, token string) error {
 	emailCode := EmailCodeService.FindOne(simple.NewSqlCnd().Eq("token", token))
 	if emailCode == nil || emailCode.Used {
-		return errors.New("非法请求")
+		return errors.New("Illegal request")
 	}
 	if emailCode.UserId != userId {
-		return errors.New("非法验证码")
+		return errors.New("Illegal verification code")
 	}
 
 	user := s.Get(userId)
 	if user == nil || emailCode.Email != user.Email.String {
-		return errors.New("验证码过期")
+		return errors.New("Verification code expired")
 	}
 	if date.FromTimestamp(emailCode.CreateTime).Add(time.Hour * time.Duration(emailVerifyExpireHour)).Before(time.Now()) {
-		return errors.New("验证邮件已过期")
+		return errors.New("The verification email has expired")
 	}
 	return simple.DB().Transaction(func(tx *gorm.DB) error {
 		if err := repositories.UserRepository.UpdateColumn(tx, emailCode.UserId, "email_verified", true); err != nil {
@@ -510,7 +510,7 @@ func (s *userService) CheckPostStatus(user *model.User) *simple.CodeError {
 	}
 	observeSeconds := SysConfigService.GetInt(constants.SysConfigUserObserveSeconds)
 	if user.InObservationPeriod(observeSeconds) {
-		return simple.NewError(common.InObservationPeriod.Code, "账号尚在观察期，观察期时长："+strconv.Itoa(observeSeconds)+"秒，请稍后再试")
+		return simple.NewError(common.InObservationPeriod.Code, "The account is still in the observation period, and the observation period is :"+strconv.Itoa(observeSeconds)+"s, please try again later.")
 	}
 	return nil
 }
@@ -519,11 +519,11 @@ func (s *userService) CheckPostStatus(user *model.User) *simple.CodeError {
 func (s *userService) IncrScoreForPostTopic(topic *model.Topic) {
 	config := SysConfigService.GetConfig()
 	if config.ScoreConfig.PostTopicScore <= 0 {
-		logrus.Info("请配置发帖积分")
+		logrus.Info("Please configure posting points")
 		return
 	}
 	err := s.addScore(topic.UserId, config.ScoreConfig.PostTopicScore, constants.EntityTopic,
-		strconv.FormatInt(topic.Id, 10), "发表话题")
+		strconv.FormatInt(topic.Id, 10), "Post a topic")
 	if err != nil {
 		logrus.Error(err)
 	}
@@ -537,11 +537,11 @@ func (s *userService) IncrScoreForPostComment(comment *model.Comment) {
 	}
 	config := SysConfigService.GetConfig()
 	if config.ScoreConfig.PostCommentScore <= 0 {
-		logrus.Info("请配置跟帖积分")
+		logrus.Info("Please configure the following points")
 		return
 	}
 	err := s.addScore(comment.UserId, config.ScoreConfig.PostCommentScore, constants.EntityComment,
-		strconv.FormatInt(comment.Id, 10), "发表跟帖")
+		strconv.FormatInt(comment.Id, 10), "Post a thread")
 	if err != nil {
 		logrus.Error(err)
 	}
@@ -550,7 +550,7 @@ func (s *userService) IncrScoreForPostComment(comment *model.Comment) {
 // IncrScore 增加分数
 func (s *userService) IncrScore(userId int64, score int, sourceType, sourceId, description string) error {
 	if score <= 0 {
-		return errors.New("分数必须为正数")
+		return errors.New("The score must be a positive number")
 	}
 	return s.addScore(userId, score, sourceType, sourceId, description)
 }
@@ -558,7 +558,7 @@ func (s *userService) IncrScore(userId int64, score int, sourceType, sourceId, d
 // DecrScore 减少分数
 func (s *userService) DecrScore(userId int64, score int, sourceType, sourceId, description string) error {
 	if score <= 0 {
-		return errors.New("分数必须为正数")
+		return errors.New("The score must be a positive number")
 	}
 	return s.addScore(userId, -score, sourceType, sourceId, description)
 }
@@ -566,11 +566,11 @@ func (s *userService) DecrScore(userId int64, score int, sourceType, sourceId, d
 // addScore 加分数，也可以加负数
 func (s *userService) addScore(userId int64, score int, sourceType, sourceId, description string) error {
 	if score == 0 {
-		return errors.New("分数不能为0")
+		return errors.New("can not be 0")
 	}
 	user := s.Get(userId)
 	if user == nil {
-		return errors.New("用户不存在")
+		return errors.New("User does not exist")
 	}
 	score = user.Score + score
 	if err := s.Updates(userId, map[string]interface{}{

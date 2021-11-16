@@ -84,7 +84,7 @@ func (s *checkInService) CheckIn(userId int64) error {
 	)
 
 	if checkIn != nil && checkIn.LatestDayName == dayName {
-		return errors.New("你已签到")
+		return errors.New("You have signed in")
 	}
 
 	if checkIn != nil && checkIn.LatestDayName == yesterdayName {
@@ -113,9 +113,9 @@ func (s *checkInService) CheckIn(userId int64) error {
 		config := SysConfigService.GetConfig()
 		if config.ScoreConfig.CheckInScore > 0 {
 			_ = UserService.IncrScore(userId, config.ScoreConfig.CheckInScore, constants.EntityCheckIn,
-				strconv.FormatInt(userId, 10), "签到"+strconv.Itoa(dayName))
+				strconv.FormatInt(userId, 10), "Sign in "+strconv.Itoa(dayName))
 		} else {
-			logrus.Warn("签到积分未配置...")
+			logrus.Warn("Sign-in points are not configured...")
 		}
 	}
 	return err

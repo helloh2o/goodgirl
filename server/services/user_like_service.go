@@ -97,7 +97,7 @@ func (s *userLikeService) IsLiked(userId int64, entityType string, entityIds []i
 func (s *userLikeService) TopicLike(userId int64, topicId int64) error {
 	topic := repositories.TopicRepository.Get(simple.DB(), topicId)
 	if topic == nil || topic.Status != constants.StatusOk {
-		return errors.New("话题不存在")
+		return errors.New("Topic does not exist")
 	}
 
 	if err := simple.DB().Transaction(func(tx *gorm.DB) error {
@@ -119,7 +119,7 @@ func (s *userLikeService) TopicLike(userId int64, topicId int64) error {
 func (s *userLikeService) like(db *gorm.DB, userId int64, entityType string, entityId int64) error {
 	// 判断是否已经点赞了
 	if s.Exists(userId, entityType, entityId) {
-		return errors.New("已点赞")
+		return errors.New("Liked")
 	}
 	// 点赞
 	return repositories.UserLikeRepository.Create(db, &model.UserLike{
