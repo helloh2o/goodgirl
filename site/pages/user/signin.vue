@@ -87,12 +87,8 @@
 </template>
 
 <script>
-import GithubLogin from '~/components/GithubLogin'
-import QqLogin from '~/components/QqLogin'
 export default {
   components: {
-    GithubLogin,
-    QqLogin,
   },
   asyncData({ params, query }) {
     return {
