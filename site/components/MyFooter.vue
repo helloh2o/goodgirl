@@ -9,7 +9,7 @@
       <div>
         © 2021 Powered by
         <a href="http://cowxy.pro" target="_blank" class="light"
-          >Free Proxy Club</a
+          >BBS-GO</a
         >
       </div>
     </div>
